@@ -12,7 +12,7 @@ function PlayerInfo(name) {
 };
 
 var playerForm = document.getElementById('form');
-//var welcomeMessage = document.getElementById('welcome_message');
+
 
 playerForm.addEventListener('submit', handleSubmit);
 
@@ -29,24 +29,28 @@ function handleSubmit(event){
       var newPlayer = new PlayerInfo(playerNameUpper);
       players.push(newPlayer);
       allPlayerNames.push(playerNameUpper);
-      return alert('Welcome, ' + playerName + '. You are the first player on the site!');
+      return writeWelcomeMessage('Welcome ' + playerName + '!');
     } else {
       //for (var i = 0; i < allPlayerNames.length; i++) {
       if (allPlayerNames.indexOf(playerNameUpper) !== -1) {
-        return alert('Welcome back, ' + playerName + '!');
+        return writeWelcomeMessage('Welcome back, ' + playerName + '!');
       } else if (allPlayerNames.indexOf(playerNameUpper) === -1) {
         newPlayer = new PlayerInfo(playerNameUpper);
         players.push(newPlayer);
         allPlayerNames.push(playerNameUpper);
-        return alert('Welcome, ' + playerName + '!');
+        return writeWelcomeMessage('Welcome, ' + playerName + '!');
       } else {
-        return alert('Please try another name');
+        return writeWelcomeMessage('Please try another name');
       }
-      //}
     }
   };
 };
 
+function writeWelcomeMessage(message) {
+  var welcomeMessage = document.getElementById('welcome_message');
+  welcomeMessage.textContent = message;//update content
+  player_input.appendChild(welcomeMessage);
+};
 
 //   Pseudocoding:
 //   Player name:
