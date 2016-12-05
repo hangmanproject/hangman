@@ -1,8 +1,9 @@
 'use strict';
 
 var players = [];
+var allPlayerNames  = [];
 
-function playerInfo(name) {
+function PlayerInfo(name) {
   this.playerName = name;
   this.gamesWon = 0;
   this.gamesPlayed = 0;
@@ -11,22 +12,40 @@ function playerInfo(name) {
 };
 
 var playerForm = document.getElementById('form');
-var welcomeMessage = document.getElementById
+//var welcomeMessage = document.getElementById('welcome_message');
 
 playerForm.addEventListener('submit', handleSubmit);
 
 function handleSubmit(event){
   event.preventDefault();
+
   var playerName = event.target.player_name.value;
+  var playerNameUpper = playerName.toUpperCase();
 
-  for (var i = 0; i < players.length; i++) {
-    var
-    if ()
-  }
-  var newPlayer = new playerInfo(playerName);
-  players.push(newPlayer);
-}
+  checkName();
 
+  function checkName() {
+    if (players.length === 0) {
+      var newPlayer = new PlayerInfo(playerNameUpper);
+      players.push(newPlayer);
+      allPlayerNames.push(playerNameUpper);
+      return alert('Welcome, ' + playerName + '. You are the first player on the site!');
+    } else {
+      //for (var i = 0; i < allPlayerNames.length; i++) {
+      if (allPlayerNames.indexOf(playerNameUpper) !== -1) {
+        return alert('Welcome back, ' + playerName + '!');
+      } else if (allPlayerNames.indexOf(playerNameUpper) === -1) {
+        newPlayer = new PlayerInfo(playerNameUpper);
+        players.push(newPlayer);
+        allPlayerNames.push(playerNameUpper);
+        return alert('Welcome, ' + playerName + '!');
+      } else {
+        return alert('Please try another name');
+      }
+      //}
+    }
+  };
+};
 
 
 //   Pseudocoding:
