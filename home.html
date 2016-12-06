@@ -15,6 +15,26 @@
       </form>
       <h2 id=welcome_message></h2>
     </div>
+    <form id="button" method="link" action="index.html">
+      <p>Choose a game to play:</p>
+      <input type="submit" value="HANGMAN">
+    </form>
+    <div id="top_players_table">
+      <h3>Top Players</h3>
+      <table id=top_players>
+        <thead>
+          <tr>
+            <th>Player Name:</th>
+            <th>Games Played:</th>
+            <th>Games Won:</th>
+            <th>Percentage Won:</th>
+            <th>Total Points:</th>
+          </tr>
+        </thead>
+        <tbody id="table_body">
+        </tbody>
+      </table>
+    </div>
     <script type="text/javascript" src="app.js"></script>
   </body>
 </html>
