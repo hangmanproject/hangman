@@ -6,13 +6,36 @@
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
-    <form id="form">
-      <p>Player Name:
-        <input type="text" name="player_name">
-        <input id="submit" type="submit" value="Submit">
-      </p>
+    <div id="player_input">
+      <form id="form">
+        <p>Player Name:
+          <input type="text" name="player_name">
+          <input id="submit" type="submit" value="Submit">
+        </p>
+      </form>
+      <h2 id=welcome_message></h2>
+    </div>
+    <form id="button" method="link" action="index.html">
+      <p>Choose a game to play:</p>
+      <input type="submit" value="HANGMAN">
     </form>
-    <p id=welcome_message></p>
-    <script type="text/javascript" src="app.js"></script>
+    <div id="top_players_table">
+      <h3>Top Players</h3>
+      <table id=top_players>
+        <thead>
+          <tr>
+            <th>Ranking:</th>
+            <th>Player Name:</th>
+            <th>Games Played:</th>
+            <th>Games Won:</th>
+            <th>Percentage Won:</th>
+            <th>Total Points:</th>
+          </tr>
+        </thead>
+        <tbody id="table_body">
+        </tbody>
+      </table>
+    </div>
+    <script type="text/javascript" src="home.js"></script>
   </body>
 </html>
