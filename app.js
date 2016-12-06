@@ -11,15 +11,16 @@ var playerAnswerArr = [];
 // - display number of incorrect guess
 var incorrectGuesses = 0;
 // - store number of max guesses (stretch: for each difficulty)
-var maxEasyGuesses = 11; // will correspond with number of easy difficulty body parts
+var maxEasyGuesses = 5; // will correspond with number of easy difficulty body parts
 // - generate bank of words to fill in puzzle
 var easyWords = ['ebece'];//four', 'phone', 'mouse', 'bottle', 'notebook']; // subject to change
 // a variable to store the game word
 var gameWord;
 // a variable to keep track of remaining letters
 var remainingLetters;
-var letterButton = document.getElementById('letter_buttons'); //get the element
-letter_buttons.addEventListener('click', handleClick); // add the listener
+var letterButton = document.getElementById('letter_buttons'); // get the element
+letterButton.addEventListener('click', handleClick); // add the listener
+var breakForWin = false;
 // - generate a hanging man
 // _______ADDRESS______________________
 var endMessage = document.getElementById('end_of_game_msg');
@@ -43,7 +44,7 @@ function handleClick(event) { // create the handler
         remainingLetters--;
         // disable the button to prevent the player from selecting it again
         event.target.disabled = true;
-        checkForWin();
+        // checkForWin();
         // nothing happens to the hangman, nothing happens in the max guesses
       }
     }
@@ -69,6 +70,7 @@ function checkForWin() {
     displayPlayerArray(playerAnswerArr);
     //   - inform user that they won
     endMessage.textContent = 'Congrats! You won and saved the hangman!';
+    breakForWin = true;
     //   - log win and add points to total points on the user object and set to local storage
     //////////CHECK BELOW/////CHECK BELOW/////////////////
     PlayerInfo.gamesWon ++;
@@ -94,10 +96,10 @@ function checkForLoss() {
 function pickWord (wordArr) {
   gameWord = wordArr[generateRandomNumber(wordArr)];
   return gameWord;
-}
 
-function generateRandomNumber(object) {
-  return Math.floor(Math.random() * object.length);
+  function generateRandomNumber(arr) {
+    return Math.floor(Math.random() * arr.length);
+  }
 }
 
 // initiate the playerAnswerArr to '_' characters, the length of the gameWord
@@ -113,23 +115,33 @@ function displayPlayerArray(playerAnswerArr) {
   display.textContent = playerAnswerArr.join(' ');
 }
 
-//*****EXECUTE CODE*******************EXECUTE CODE**********************
-// while there are guesses left or while the puzzle has empty spaces
-while (incorrectGuesses < maxEasyGuesses) {  // START GAME LOOP
+function runGame(){
   // choose a random word from easy/medium/hardWords by getting a random number between 0-arrWords.length
   // set gameWord to arrWords[random number]
-  gameWord = pickWord();
+  gameWord = pickWord(easyWords);
 
   remainingLetters = gameWord.length;
   // generate a playerAnswerArr blank puzzle that is the length of the gameWord
   generatePlayerAnswerArray(gameWord);
-  displayPlayerArray();
+  displayPlayerArray(playerAnswerArr);
 
-  ///////////ADDRESS - hanging man area to be blank
+  // while there are guesses left or while the puzzle has empty spaces
+  var testCount = 0;
+  console.log('start while: incorrectGuesses, maxEasyGuesses, breakForWin: ', incorrectGuesses,' ', maxEasyGuesses,' ', breakForWin);
+  // while (incorrectGuesses < maxEasyGuesses || breakForWin === true || testCount > 6) {  // START GAME LOOP
+  //   ///////////ADDRESS - hanging man area to be blank
+  //   checkForWin();
+  //   testCount++;
+  // } // END OF GAME LOOP
+  do {
+    checkForWin();
+    testCount++;
+    console.log('in the loop');
+  } while (testCount < 6 || breakForWin === true);
+  console.log('out of game loop');
+  checkForLoss();
+  console.log('end while: incorrectGuesses, maxEasyGuesses, breakForWin: ', incorrectGuesses,' ', maxEasyGuesses,' ', breakForWin);
+}
 
-  // - user to click letter from the letter bank,
-  handleClick();
-
-} // END OF GAME LOOP
-console.log('out of game loop');
-checkForLoss();
+//*****EXECUTE CODE*******************EXECUTE CODE**********************
+runGame();
