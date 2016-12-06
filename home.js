@@ -13,6 +13,7 @@ function PlayerInfo(name) {
   this.ranking = 0;
 };
 
+
 retrieveLocal();
 
 var playerForm = document.getElementById('form');
@@ -153,6 +154,7 @@ function renderTopPlayerRow() {
 //   - player name
 //   - total points
 // - show top 5 players in list in order of total points
+
 
 //HARDCODED TEST PLAYERS
 // function PlayerInfo(name, won, played, percent, total) {
