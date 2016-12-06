@@ -10,7 +10,38 @@ function PlayerInfo(name) {
   this.percentWon = 0;
   this.totalPoints = 0;
 };
+// Top player stats to display: ranking, player name, total points, and show top 5 players in list in order of total points.
+calculatePercentWon: function () {
+  var numberWon = ((this.gamesWon/this.gamesPlayed) * 100);
+  this.percentWon = numberWon + '%';
+}
+calculateTotalPoints: function() {
+  var total = (this.gamesWon * 5);
+  this.totalPoints = total;
+}
+toHtml: function () {
+  this.calculatePercentWon();
+  var elMain = document.getElementById('player-stats');
 
+  var elSection = document.createElement('section');
+  elMain.appendChild(elSection);
+
+  var elH2 = document.createElement('h2');
+  elH2.textContent = this.playerName;
+  elSection.appendChild(elH2);
+
+  var elOl = document.createElement('ol');
+  elSection.appendChild(elOl);
+
+  var elLi = document.createElement('li');
+  elLi.textContent = this.percentWon;
+  elOl.appendChild(elLi);
+
+  elLi = document.createElement('li');
+  elLi.textContent = this.totalPoints;
+  elOl.appendChild(elLi);
+}
+//I wrote the functions to calculate the percent won and the total points. I made an ordered list with an h2 header that states the player name. The first list item is the percent won and the second list item is the total points.
 var playerForm = document.getElementById('form');
 //var welcomeMessage = document.getElementById('welcome_message');
 
@@ -62,9 +93,3 @@ function handleSubmit(event){
 //       - stay on page and alert them to log in
 //     - if user has entered name
 //       - user to move to the game page
-// Top player stats:
-// - to display
-//   - ranking
-//   - player name
-//   - total points
-// - show top 5 players in list in order of total points

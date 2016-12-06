@@ -49,7 +49,7 @@ Game:
 - guesses to maximum
 - max guesses to equal hangman parts
 
-- user to click letter from the letter bank, while there are guess left or while the puzzle has empty spaces
+- -[]
   - if first click in the letter bank, add one to the game played property
   - loop through puzzle word to match selected letter with any instance in that word and then replace the blank index with the selected letter
     - if user selects valid letter,
