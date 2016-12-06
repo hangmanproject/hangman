@@ -9,15 +9,15 @@ function PlayerInfo(name) {
   this.totalPoints = 0;
 };
 // Top player stats to display: ranking, player name, total points, and show top 5 players in list in order of total points.
-calculatePercentWon: function () {
-  var numberWon = ((this.gamesWon/this.gamesPlayed) * 100);
+function calculatePercentWon () {
+  var numberWon = ((this.gamesWon / this.gamesPlayed) * 100);
   this.percentWon = numberWon + '%';
 }
-calculateTotalPoints: function() {
+function calculateTotalPoints() {
   var total = (this.gamesWon * 5);
   this.totalPoints = total;
 }
-toHtml: function () {
+function toHtml () {
   this.calculatePercentWon();
   var elMain = document.getElementById('player-stats');
 
@@ -39,6 +39,66 @@ toHtml: function () {
   elLi.textContent = this.totalPoints;
   elOl.appendChild(elLi);
 }
+var canvas = document.getElementById('stage'),
+  c = canvas.getContext('2d');
+
+function drawLine(context , from, to) {
+  context.beingPath();
+  context.moveTo(from[0], from[1]);
+  context.lineTo(to[0], to[1]);
+  context.stroke();
+  drawLine(c, [0,0], [100,50]);
+}
+//Draw the canvas function drawCanvas()
+var c = canvas.getContext('2d');
+//reset the canvas and set the basic styles
+canvas.width = canvas.width;
+c.lineWidth = 10;
+c.strokeStyle = 'green';
+c.font = 'bold 24px Optimer, Arial, Helvetica, sans-serif';
+c.fillStyle = 'red';
+//draw the ground
+drawLine(c, [20,190], [180,190]);
+//start building the gallows if there's been a bad guess
+//if (badGuesses > 0) {
+  //create the upright
+  c.strokeStyle = '#A52A2A';
+  drawLine(c, [30,185], [30,10]);
+  //if (badGuesses > 1) {
+    //create the arm gallows
+    c.lineTo(150,10);
+    c.stroke();
+  //}
+  //if (badGuesses > 2) {
+    c.strokeStyle = 'black';
+    c.lineWidth = 3;
+    //draw rope
+    drawLine(c, [145,15], [145,30]);
+    //draw head
+    c.beginPath();
+    c.moveTo(160, 45);
+    c.arc(145, 45, 15, 0, (Math.PI/180)*360);
+    c.stroke();
+    //}
+  //if (badGuesses > 3) {
+    //draw body
+    drawLine(c, [145,60], [145,130]);
+  //}
+  //if (badGuesses > 4) {
+    //draw left arm
+    drawLine(c, [145,80], [110,90]);
+  //}
+  //if (badGuesses > 5) {
+    //draw right arm
+    drawLine(c, [145,80], [180,90]);
+  //}
+  //if  (badGuesses > 6) {
+    //draw left leg
+    drawLine(c, [145,130], [130,170]);
+  //}
+  //if (badGuesses > 7) {
+    //draw right leg and end game
+    drawLine(c, [145,130], [160,170]);
 //I wrote the functions to calculate the percent won and the total points. I made an ordered list with an h2 header that states the player name. The first list item is the percent won and the second list item is the total points.
 var playerForm = document.getElementById('form');
 //var welcomeMessage = document.getElementById('welcome_message');
@@ -122,7 +182,6 @@ var gameWord;
 //       - stay on page and alert them to log in
 //     - if user has entered name
 //       - user to move to the game page
-=======
 function generateRandomNumber(object) {
   return Math.floor(Math.random() * object.length);
 }
