@@ -21,7 +21,8 @@ body {
   font-size: 4em;
   color: #5E5E5E;
   background-color: rgba(255, 255, 255, .6);
-  width: 100%;
+  width: 960px;
+  margin: 0 auto;
 }
 
 #title_image p {
