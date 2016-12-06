@@ -39,17 +39,20 @@ function toHtml () {
   elLi.textContent = this.totalPoints;
   elOl.appendChild(elLi);
 }
+//I wrote the functions to calculate the percent won and the total points. I made an ordered list with an h2 header that states the player name. The first list item is the percent won and the second list item is the total points.
+
 var canvas = document.getElementById('stage'),
-  c = canvas.getContext('2d');
+  ctx = canvas.getContext('2d');
 
 function drawLine(context , from, to) {
-  context.beingPath();
-  context.moveTo(from[0], from[1]);
-  context.lineTo(to[0], to[1]);
-  context.stroke();
-  drawLine(c, [0,0], [100,50]);
+  ctx.beginPath();
+  ctx.moveTo(from[0], from[1]);
+  ctx.lineTo(to[0], to[1]);
+  ctx.stroke();
 }
-//Draw the canvas function drawCanvas()
+drawLine(c, [0,0], [100,50]);
+//Draw the canvas
+//function drawCanvas()
 var c = canvas.getContext('2d');
 //reset the canvas and set the basic styles
 canvas.width = canvas.width;
@@ -60,46 +63,46 @@ c.fillStyle = 'red';
 //draw the ground
 drawLine(c, [20,190], [180,190]);
 //start building the gallows if there's been a bad guess
-//if (badGuesses > 0) {
-  //create the upright
-  c.strokeStyle = '#A52A2A';
-  drawLine(c, [30,185], [30,10]);
-  //if (badGuesses > 1) {
-    //create the arm gallows
-    c.lineTo(150,10);
-    c.stroke();
-  //}
-  //if (badGuesses > 2) {
-    c.strokeStyle = 'black';
-    c.lineWidth = 3;
-    //draw rope
-    drawLine(c, [145,15], [145,30]);
-    //draw head
-    c.beginPath();
-    c.moveTo(160, 45);
-    c.arc(145, 45, 15, 0, (Math.PI/180)*360);
-    c.stroke();
-    //}
-  //if (badGuesses > 3) {
-    //draw body
-    drawLine(c, [145,60], [145,130]);
-  //}
-  //if (badGuesses > 4) {
-    //draw left arm
-    drawLine(c, [145,80], [110,90]);
-  //}
-  //if (badGuesses > 5) {
-    //draw right arm
-    drawLine(c, [145,80], [180,90]);
-  //}
-  //if  (badGuesses > 6) {
-    //draw left leg
-    drawLine(c, [145,130], [130,170]);
-  //}
-  //if (badGuesses > 7) {
-    //draw right leg and end game
-    drawLine(c, [145,130], [160,170]);
-//I wrote the functions to calculate the percent won and the total points. I made an ordered list with an h2 header that states the player name. The first list item is the percent won and the second list item is the total points.
+//if (incorrectGuesses > 0) {
+//create the upright
+c.strokeStyle = '#A52A2A';
+drawLine(c, [30,185], [30,10]);
+//if (incorrectGuesses > 1) {
+//create the arm gallows
+c.lineTo(150,10);
+c.stroke();
+//}
+//if (incorrectGuesses > 2) {
+c.strokeStyle = 'black';
+c.lineWidth = 3;
+//draw rope
+drawLine(c, [145,15], [145,30]);
+//draw head
+c.beginPath();
+c.moveTo(160, 45);
+c.arc(145, 45, 15, 0, (Math.PI / 180) * 360);
+c.stroke();
+//}
+//if (incorrectGuesses > 3) {
+//draw body
+drawLine(c, [145,60], [145,130]);
+//}
+//if (incorrectGuesses > 4) {
+//draw left arm
+drawLine(c, [145,80], [110,90]);
+//}
+//if (incorrectGuesses > 5) {
+//draw right arm
+drawLine(c, [145,80], [180,90]);
+//}
+//if  (incorrectGuesses > 6) {
+//draw left leg
+drawLine(c, [145,130], [130,170]);
+//}
+//if (incorrectGuesses > 7) {
+//draw right leg and end game
+drawLine(c, [145,130], [160,170]);
+//this is the code that makes the hangman image. The if statement is creating the added limb to the image each time they use up one of the guesses or 'lives'.
 var playerForm = document.getElementById('form');
 //var welcomeMessage = document.getElementById('welcome_message');
 // - bank of letter options that can be clicked
@@ -177,90 +180,90 @@ function handleClick(event) { // create the handler
 //       - stay on page and alert them to log in
 //     - if user has entered name
 //       - user to move to the game page
-function generateRandomNumber(object) {
-  return Math.floor(Math.random() * object.length);
+  function generateRandomNumber(object) {
+    return Math.floor(Math.random() * object.length);
 
-}
+  }
 
-function checkForWin() {
-  if (remainingLetters === 0) { // if the player has won
+  function checkForWin() {
+    if (remainingLetters === 0) { // if the player has won
     // all puzzle spaces will be filled with the correct letters
-    displayPlayerArray(playerAnswerArr);
+      displayPlayerArray(playerAnswerArr);
     //   - inform user that they won
-    endMessage.textContent = 'Congrats! You won and saved the hangman!';
-    breakForWin = true;
+      endMessage.textContent = 'Congrats! You won and saved the hangman!';
+      breakForWin = true;
     //   - log win and add points to total points on the user object and set to local storage
     //////////CHECK BELOW/////CHECK BELOW/////////////////
-    PlayerInfo.gamesWon ++;
-    PlayerInfo.totalPoints += 1;
+      PlayerInfo.gamesWon ++;
+      PlayerInfo.totalPoints += 1;
 
     //   - refresh page?
+    }
   }
-}
 
-function checkForLoss() {
-  if (remainingLetters > 0) { // if player has lost
+  function checkForLoss() {
+    if (remainingLetters > 0) { // if player has lost
     //   - hangman will have all parts
     //   - max guesses is full
     //   - display correct letters in the puzzle as the answer
 
     //   - inform user that they lost
-    endMessage.textContent = 'You failed to guess \'' + gameWord + '.\' A man has been hanged today. You lose.';
+      endMessage.textContent = 'You failed to guess \'' + gameWord + '.\' A man has been hanged today. You lose.';
 
     //   - refresh page?
+    }
+
   }
 
-}
+  function pickWord (wordArr) {
+    gameWord = wordArr[generateRandomNumber(wordArr)];
+    return gameWord;
 
-function pickWord (wordArr) {
-  gameWord = wordArr[generateRandomNumber(wordArr)];
-  return gameWord;
-
-  function generateRandomNumber(arr) {
-    return Math.floor(Math.random() * arr.length);
+    function generateRandomNumber(arr) {
+      return Math.floor(Math.random() * arr.length);
+    }
   }
-}
 
 // initiate the playerAnswerArr to '_' characters, the length of the gameWord
-function generatePlayerAnswerArray (gameWord) {
-  for (var i = 0; i < gameWord.length; i++) {
-    playerAnswerArr.push('_');
-  };
-}
+  function generatePlayerAnswerArray (gameWord) {
+    for (var i = 0; i < gameWord.length; i++) {
+      playerAnswerArr.push('_');
+    };
+  }
 
 // display the playerAnswerArr in html
-function displayPlayerArray(playerAnswerArr) {
-  var display = document.getElementById('display_player_array');
-  display.textContent = playerAnswerArr.join(' ');
-}
+  function displayPlayerArray(playerAnswerArr) {
+    var display = document.getElementById('display_player_array');
+    display.textContent = playerAnswerArr.join(' ');
+  }
 
-function runGame(){
+  function runGame(){
   // choose a random word from easy/medium/hardWords by getting a random number between 0-arrWords.length
   // set gameWord to arrWords[random number]
-  gameWord = pickWord(easyWords);
+    gameWord = pickWord(easyWords);
 
-  remainingLetters = gameWord.length;
+    remainingLetters = gameWord.length;
   // generate a playerAnswerArr blank puzzle that is the length of the gameWord
-  generatePlayerAnswerArray(gameWord);
-  displayPlayerArray(playerAnswerArr);
+    generatePlayerAnswerArray(gameWord);
+    displayPlayerArray(playerAnswerArr);
 
   // while there are guesses left or while the puzzle has empty spaces
-  var testCount = 0;
-  console.log('start while: incorrectGuesses, maxEasyGuesses, breakForWin: ', incorrectGuesses,' ', maxEasyGuesses,' ', breakForWin);
+    var testCount = 0;
+    console.log('start while: incorrectGuesses, maxEasyGuesses, breakForWin: ', incorrectGuesses,' ', maxEasyGuesses,' ', breakForWin);
   // while (incorrectGuesses < maxEasyGuesses || breakForWin === true || testCount > 6) {  // START GAME LOOP
   //   ///////////ADDRESS - hanging man area to be blank
   //   checkForWin();
   //   testCount++;
   // } // END OF GAME LOOP
-  do {
-    checkForWin();
-    testCount++;
-    console.log('in the loop');
-  } while (testCount < 6 || breakForWin === true);
-  console.log('out of game loop');
-  checkForLoss();
-  console.log('end while: incorrectGuesses, maxEasyGuesses, breakForWin: ', incorrectGuesses,' ', maxEasyGuesses,' ', breakForWin);
+    do {
+      checkForWin();
+      testCount++;
+      console.log('in the loop');
+    } while (testCount < 6 || breakForWin === true);
+    console.log('out of game loop');
+    checkForLoss();
+    console.log('end while: incorrectGuesses, maxEasyGuesses, breakForWin: ', incorrectGuesses,' ', maxEasyGuesses,' ', breakForWin);
+  }
 }
-
 //*****EXECUTE CODE*******************EXECUTE CODE**********************
 runGame();
