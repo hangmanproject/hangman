@@ -3,24 +3,43 @@
 var players = [];
 var allPlayerNames  = [];
 var storedPlayersString = localStorage.getItem('players');
+//HARDCODED TEST PLAYERS
+function PlayerInfo(name, won, played, percent, total) {
+  this.playerName = name;
+  this.gamesWon = won;
+  this.gamesPlayed = played;
+  this.percentWon = percent;
+  this.totalPoints = total;
+  this.ranking = 0;
+};
 
-// function PlayerInfo(name, won, played, percent, total) {
+// function PlayerInfo(name) {
 //   this.playerName = name;
-//   this.gamesWon = won;
-//   this.gamesPlayed = played;
-//   this.percentWon = percent;
-//   this.totalPoints = total;
+//   this.gamesWon = 0;
+//   this.gamesPlayed = 0;
+//   this.percentWon = 0;
+//   this.totalPoints = 0;
 //   this.ranking = 0;
 // };
 
-function PlayerInfo(name) {
-  this.playerName = name;
-  this.gamesWon = 0;
-  this.gamesPlayed = 0;
-  this.percentWon = 0;
-  this.totalPoints = 0;
-  this.ranking = 0;
-};
+//HARDCODED TEST PLAYERS
+var playerOne = new PlayerInfo('Brigitte', 5, 10, '50%', 25);
+players.push(playerOne);
+
+var playerTwo = new PlayerInfo('Nicole', 7, 7, '100%', 35);
+players.push(playerTwo);
+
+var playerTThree = new PlayerInfo('Gretchen', 8, 10, '80%', 40);
+players.push(playerTThree);
+
+var playerFour = new PlayerInfo('Anne', 12, 16, '75%', 60);
+players.push(playerFour);
+
+var playerFive = new PlayerInfo('Eric', 6, 6, '100%', 30);
+players.push(playerFive);
+
+var playerSix = new PlayerInfo('August', 7, 21, '33%', 35);
+players.push(playerSix);
 
 retrieveLocal();
 
@@ -75,18 +94,25 @@ function retrieveLocal() {
     players = JSON.parse(storedPlayersString);
   }
 }
-//loop through players array to find highest total points
-//if highest total points, render table row
-//loop back
+// loop through players array to find highest total points
+// if highest total points, render table row
+// loop back
 
+var topTotalsIndex = [];
+function totalPointsIndex() {
+  for (var i = 0; i < players.length; i++) {
+    topTotalsIndex.push(players[i].totalPoints);
+  }
+}
+totalPointsIndex();
+
+function getMaxOfArray(topTotalsIndex) {
+  return Math.max.apply(topTotalsIndex);
+}
 // function rankTopPlayers() {
-//   var topPlayersIndex = [];
 //   for (var i = 0; i < players.length; i++) {
-//     topPlayersIndex.push(players[i].totalPoints);
-//   }
-//   var max = Math.max(topPlayersIndex);
+//     if (max)
 // }
-
 
 function renderTopPlayerRow() {
   var topPlayersTable = document.getElementById('table_body');
@@ -116,24 +142,6 @@ function renderTopPlayerRow() {
 }
 
 renderTopPlayerRow();
-
-// var playerOne = new PlayerInfo(Brigitte, 5, 10, '50%', 25);
-// players.push(playerOne);
-//
-// var playerTwo = new PlayerInfo(Nicole, 7, 7, '100%', 35);
-// players.push(playerTwo);
-//
-// var playerTThree = new PlayerInfo(Nicole, 7, 7, '100%', 35);
-// players.push(playerTThree);
-//
-// var playerFour = new PlayerInfo(Nicole, 7, 7, '100%', 35);
-// players.push(playerFour);
-//
-// var playerFive = new PlayerInfo(Nicole, 7, 7, '100%', 35);
-// players.push(playerFive);
-//
-// var playerSix = new PlayerInfo(Nicole, 7, 7, '100%', 35);
-// players.push(playerSix);
 
 //   Pseudocoding:
 //   Player name:

@@ -4,42 +4,47 @@ var players = [];
 var allPlayerNames  = [];
 var storedPlayersString = localStorage.getItem('players');
 //HARDCODED TEST PLAYERS
-function PlayerInfo(name, won, played, percent, total) {
-  this.playerName = name;
-  this.gamesWon = won;
-  this.gamesPlayed = played;
-  this.percentWon = percent;
-  this.totalPoints = total;
-  this.ranking = 0;
-};
-
-// function PlayerInfo(name) {
+// function PlayerInfo(name, won, played, percent, total) {
 //   this.playerName = name;
-//   this.gamesWon = 0;
-//   this.gamesPlayed = 0;
-//   this.percentWon = 0;
-//   this.totalPoints = 0;
+//   this.gamesWon = won;
+//   this.gamesPlayed = played;
+//   this.percentWon = percent;
+//   this.totalPoints = total;
 //   this.ranking = 0;
 // };
 
+function PlayerInfo(name) {
+  this.playerName = name;
+  this.gamesWon = 0;
+  this.gamesPlayed = 0;
+  this.percentWon = 0;
+  this.totalPoints = 0;
+  this.ranking = 0;
+};
+
 //HARDCODED TEST PLAYERS
-var playerOne = new PlayerInfo('Brigitte', 5, 10, '50%', 25);
-players.push(playerOne);
-
-var playerTwo = new PlayerInfo('Nicole', 7, 7, '100%', 35);
-players.push(playerTwo);
-
-var playerTThree = new PlayerInfo('Gretchen', 8, 10, '80%', 40);
-players.push(playerTThree);
-
-var playerFour = new PlayerInfo('Anne', 12, 16, '75%', 60);
-players.push(playerFour);
-
-var playerFive = new PlayerInfo('Eric', 6, 6, '100%', 30);
-players.push(playerFive);
-
-var playerSix = new PlayerInfo('August', 7, 21, '33%', 35);
-players.push(playerSix);
+// var playerOne = new PlayerInfo('Brigitte', 5, 10, '50%', 25);
+// players.push(playerOne);
+//
+// var playerTwo = new PlayerInfo('Nicole', 7, 7, '100%', 35);
+// players.push(playerTwo);
+// sortPlayers();
+//
+// var playerThree = new PlayerInfo('Gretchen', 8, 10, '80%', 40);
+// players.push(playerThree);
+// sortPlayers();
+//
+// var playerFour = new PlayerInfo('Anne', 12, 16, '75%', 60);
+// players.push(playerFour);
+// sortPlayers();
+//
+// var playerFive = new PlayerInfo('Eric', 6, 6, '100%', 30);
+// players.push(playerFive);
+// sortPlayers();
+//
+// var playerSix = new PlayerInfo('August', 7, 21, '33%', 35);
+// players.push(playerSix);
+// sortPlayers();
 
 retrieveLocal();
 
@@ -55,9 +60,11 @@ function handleSubmit(event){
 
   checkName();
 
+
   function checkName() {
     if (players.length === 0) {
       var newPlayer = new PlayerInfo(playerNameUpper);
+      players.ranking = 1;
       players.push(newPlayer);
       allPlayerNames.push(playerNameUpper);
       storeLocal();
@@ -69,6 +76,8 @@ function handleSubmit(event){
         newPlayer = new PlayerInfo(playerNameUpper);
         players.push(newPlayer);
         allPlayerNames.push(playerNameUpper);
+        sortPlayers();
+        renderTable();
         storeLocal();
         return writeWelcomeMessage('Welcome, ' + playerName + '!');
       } else {
@@ -84,64 +93,78 @@ function writeWelcomeMessage(message) {
   player_input.appendChild(welcomeMessage);
 };
 
+function sortPlayers(){
+  players.sort(function(a, b) {
+    return (b.playerName) - (a.playerName);
+  });
+};
+
+// function sortPlayers(){
+//   players.sort(function(a, b) {
+//     return (b.totalPoints) - (a.totalPoints);
+//   });
+// };
+
 function storeLocal() {
   var playersJSON = JSON.stringify(players);
   localStorage.setItem('players', playersJSON);
-}
+};
 
 function retrieveLocal() {
   if (storedPlayersString) {
     players = JSON.parse(storedPlayersString);
   }
-}
-// loop through players array to find highest total points
-// if highest total points, render table row
-// loop back
+};
 
-var topTotalsIndex = [];
-function totalPointsIndex() {
-  for (var i = 0; i < players.length; i++) {
-    topTotalsIndex.push(players[i].totalPoints);
+function renderTable(){
+  for (var i = 0; i < 5; i++) {
+    if (players[i].playerName !== 'Ron') {
+      renderTopPlayerRow();
+    }
   }
-}
-totalPointsIndex();
+};
 
-function getMaxOfArray(topTotalsIndex) {
-  return Math.max.apply(topTotalsIndex);
-}
-// function rankTopPlayers() {
-//   for (var i = 0; i < players.length; i++) {
-//     if (max)
-// }
+// function renderTable(){
+//   var rank = 0;
+//   for (var i = 0; i < 5; i++) {
+//     rank = rank + 1;
+//     players[i].ranking = rank;
+//     renderTopPlayerRow();
+//   }
+// };
 
 function renderTopPlayerRow() {
   var topPlayersTable = document.getElementById('table_body');
   var tableRow = document.createElement('tr');
+  // var rankingTop = document.createElement('td');
   var playerNameTop = document.createElement('td');
   var gamesPlayedTop = document.createElement('td');
   var gamesWonTop = document.createElement('td');
   var percentageWonTop = document.createElement('td');
   var totalPointsTop = document.createElement('td');
 
-  playerNameTop.textContent = players[0].playerName;
+    // rankingTop.textContent = players[i].ranking;
+    // tableRow.appendChild(rankingTop);
+
+  playerNameTop.textContent = players.playerName;
   tableRow.appendChild(playerNameTop);
 
-  gamesPlayedTop.textContent = players[0].gamesPlayed;
+  gamesPlayedTop.textContent = players.gamesPlayed;
   tableRow.appendChild(gamesPlayedTop);
 
-  gamesWonTop.textContent = players[0].gamesWon;
+  gamesWonTop.textContent = players.gamesWon;
   tableRow.appendChild(gamesWonTop);
 
-  percentageWonTop.textContent = players[0].percentWon;
+  percentageWonTop.textContent = players.percentWon;
   tableRow.appendChild(percentageWonTop);
 
-  totalPointsTop.textContent = players[0].totalPoints;
+  totalPointsTop.textContent = players.totalPoints;
   tableRow.appendChild(totalPointsTop);
 
   topPlayersTable.appendChild(tableRow);
 }
 
-renderTopPlayerRow();
+
 
 //   Pseudocoding:
 //   Player name:
