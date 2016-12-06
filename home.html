@@ -6,6 +6,9 @@
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
+    <div id="title_image">
+      <h1>HANGMAN</h1>
+    </div>
     <div id="player_input">
       <form id="form">
         <p>Player Name:
@@ -15,18 +18,18 @@
         </p>
       </form>
 
-      <h2 id=welcome_message></h2>
+      <h2 id="welcome_message"></h2>
     </div>
     <form id="button" method="link" action="index.html">
       <p>Choose a game to play:</p>
-      <input type="submit" value="HANGMAN">
+      <input id="game_button" type="submit" value="HANGMAN">
     </form>
     <div id="top_players_table">
-      <h3>Top Players</h3>
+      <h3 class="table_title">Top Players</h3>
       <table id="top_players">
         <thead>
           <tr>
-            <th>Ranking:</th>
+            <th>Player Ranking:</th>
             <th>Player Name:</th>
             <th>Games Played:</th>
             <th>Games Won:</th>

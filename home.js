@@ -39,14 +39,14 @@ function handleSubmit(event){
       allPlayerNames.push(playerNameUpper);
       renderTopPlayerRow(newPlayer);
       storeLocal();
-      return writeWelcomeMessage('Welcome ' + playerName + '!');
+      return writeWelcomeMessage('Welcome ' + playerName + '. Play at your own risk. A man\'s life is at stake.');
     } else {
       var playerIndex = allPlayerNames.indexOf(playerNameUpper);
       if (playerIndex !== -1) {
         players[playerIndex].totalPoints = totalPoints;
         sortPlayers();
         renderTable();
-        return writeWelcomeMessage('Welcome back, ' + playerName + '!');
+        return writeWelcomeMessage('Welcome back, ' + playerName + '. You know the stakes.');
       } else if (playerIndex === -1) {
         newPlayer = new PlayerInfo(playerNameUpper);
         players.push(newPlayer);
@@ -55,7 +55,7 @@ function handleSubmit(event){
         sortPlayers();
         renderTable();
         storeLocal();
-        return writeWelcomeMessage('Welcome, ' + playerName + '!');
+        return writeWelcomeMessage('Welcome, ' + playerName + '. Play at your own risk. A man\'s life is at stake.');
       } else {
         return writeWelcomeMessage('Please try another name');
       }
