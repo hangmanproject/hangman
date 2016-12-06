@@ -13,24 +13,32 @@ body {
   background-image: url("https://static.pexels.com/photos/51000/trees-mist-fog-eerie-51000.jpeg");
   background-repeat: no-repeat;
   background-size: cover;
+  margin: 0;
 }
 
 #title_image {
   text-align: center;
   font-family: serif;
-  font-size: 4em;
-  color: #5E5E5E;
-  background-color: rgba(255, 255, 255, .6);
-  width: 960px;
+  font-size: 40pt;
+  color: #3D3D3D;
+  width: 100%;
   margin: 0 auto;
+  background: -webkit-linear-gradient(white, transparent);
+  background:    -moz-linear-gradient(white, transparent);
+  background:         linear-gradient(white, transparent);
+  height: 300px;
 }
+
+h1 {
+  margin: 0;
+}
+
 
 #title_image p {
   text-align: center;
   font-family: serif;
   font-size: 14pt;
   color: #8C1717;
-  padding: 0px;
 }
 
 #player_input {
@@ -63,7 +71,7 @@ body {
   text-align: center;
   font-size: 1.5em;
   width: 250px;
-  margin: 100px auto 10px auto;
+  margin: 80px auto 10px auto;
 }
 
 #game_button {
@@ -75,7 +83,7 @@ body {
   font-family: Raleway;
   color: #5D5D5D;
   text-align: center;
-  font-size: 50pt;
+  font-size: 24pt;
 }
 
 #top_players_table {
@@ -84,22 +92,29 @@ body {
   font-family: Raleway;
   color: #5D5D5D;
   text-align: center;
-  margin: 200px auto 0 auto;
+  margin: 80px auto 0 auto;
   padding: 10px 80px;
 }
 
 table {
   margin: 0 auto;
+  padding-bottom: 30px;
+  border-collapse: collapse;
 }
 
 thead {
   font-family: Raleway;
   color: #5D5D5D;
-  font-size: 1.5em;
+  font-size: 14pt;
 }
 
 th {
   width: 100px;
+  border-bottom: 1px solid #8C1717;
+}
+
+td {
+  border-bottom: 1px solid gray;
 }
 
 tbody {
@@ -115,7 +130,7 @@ tbody {
 
 #main_about {
   width: 960px;
-  margin: 0 auto 300px auto;
+  margin: 150px auto 300px auto;
   background-color: rgba(255, 255, 255, .8);
 }
 

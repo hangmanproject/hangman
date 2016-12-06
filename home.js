@@ -44,6 +44,7 @@ function handleSubmit(event){
       var playerIndex = allPlayerNames.indexOf(playerNameUpper);
       if (playerIndex !== -1) {
         players[playerIndex].totalPoints = totalPoints;
+        allPlayerNames.push(playerNameUpper);
         sortPlayers();
         renderTable();
         return writeWelcomeMessage('Welcome back, ' + playerName + '. You know the stakes.');
