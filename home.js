@@ -3,15 +3,7 @@
 var players = [];
 var allPlayerNames  = [];
 var storedPlayersString = localStorage.getItem('players');
-//HARDCODED TEST PLAYERS
-// function PlayerInfo(name, won, played, percent, total) {
-//   this.playerName = name;
-//   this.gamesWon = won;
-//   this.gamesPlayed = played;
-//   this.percentWon = percent;
-//   this.totalPoints = total;
-//   this.ranking = 0;
-// };
+var storedNamesString = localStorage.getItem('allPlayerNames');
 
 function PlayerInfo(name) {
   this.playerName = name;
@@ -21,6 +13,144 @@ function PlayerInfo(name) {
   this.totalPoints = 0;
   this.ranking = 0;
 };
+
+retrieveLocal();
+
+
+var playerForm = document.getElementById('form');
+
+playerForm.addEventListener('submit', handleSubmit);
+
+function handleSubmit(event){
+  event.preventDefault();
+
+  var playerName = event.target.player_name.value;
+  var playerNameUpper = playerName.toUpperCase();
+  var totalPoints = event.target.total_points.value;
+
+  checkName();
+
+  function checkName() {
+    if (players.length === 0) {
+      var newPlayer = new PlayerInfo(playerNameUpper);
+      newPlayer.ranking = 1;
+      newPlayer.totalPoints = totalPoints;
+      players.push(newPlayer);
+      allPlayerNames.push(playerNameUpper);
+      renderTopPlayerRow(newPlayer);
+      storeLocal();
+      return writeWelcomeMessage('Welcome ' + playerName + '!');
+    } else {
+      var playerIndex = allPlayerNames.indexOf(playerNameUpper);
+      if (playerIndex !== -1) {
+        players[playerIndex].totalPoints = totalPoints;
+        sortPlayers();
+        renderTable();
+        return writeWelcomeMessage('Welcome back, ' + playerName + '!');
+      } else if (playerIndex === -1) {
+        newPlayer = new PlayerInfo(playerNameUpper);
+        players.push(newPlayer);
+        newPlayer.totalPoints = totalPoints;
+        allPlayerNames.push(playerNameUpper);
+        sortPlayers();
+        renderTable();
+        storeLocal();
+        return writeWelcomeMessage('Welcome, ' + playerName + '!');
+      } else {
+        return writeWelcomeMessage('Please try another name');
+      }
+    }
+  };
+};
+
+function writeWelcomeMessage(message) {
+  var welcomeMessage = document.getElementById('welcome_message');
+  welcomeMessage.textContent = message;//update content
+  player_input.appendChild(welcomeMessage);
+};
+
+function sortPlayers(){
+  players.sort(function(a, b) {
+    return (b.totalPoints) - (a.totalPoints);
+  });
+};
+
+function storeLocal() {
+  var playersJSON = JSON.stringify(players);
+  var namesJSON = JSON.stringify(allPlayerNames);
+  localStorage.setItem('players', playersJSON);
+  localStorage.setItem('allPlayerNames', namesJSON);
+};
+
+function retrieveLocal() {
+  if (storedPlayersString) {
+    players = JSON.parse(storedPlayersString);
+    allPlayerNames = JSON.parse(storedNamesString);
+    renderTable();
+  }
+};
+
+function renderTable(){
+  clearTable();
+  var rank = 0;
+  var playersLength = players.length;
+  if (playersLength > 5) {
+    playersLength = 5;
+  }
+  for (var i = 0; i < playersLength; i++) {
+    rank = rank + 1;
+    players[i].ranking = rank;
+    console.log(players[i]);
+    renderTopPlayerRow(players[i]);
+  }
+};
+
+function renderTopPlayerRow(newPlayer) {
+  var topPlayersTable = document.getElementById('table_body');
+  var tableRow = document.createElement('tr');
+  var rankingTop = document.createElement('td');
+  var playerNameTop = document.createElement('td');
+  var gamesPlayedTop = document.createElement('td');
+  var gamesWonTop = document.createElement('td');
+  var percentageWonTop = document.createElement('td');
+  var totalPointsTop = document.createElement('td');
+
+  rankingTop.textContent = newPlayer.ranking;
+  tableRow.appendChild(rankingTop);
+
+  playerNameTop.textContent = newPlayer.playerName;
+  tableRow.appendChild(playerNameTop);
+
+  gamesPlayedTop.textContent = newPlayer.gamesPlayed;
+  tableRow.appendChild(gamesPlayedTop);
+
+  gamesWonTop.textContent = newPlayer.gamesWon;
+  tableRow.appendChild(gamesWonTop);
+
+  percentageWonTop.textContent = newPlayer.percentWon;
+  tableRow.appendChild(percentageWonTop);
+
+  totalPointsTop.textContent = newPlayer.totalPoints;
+  tableRow.appendChild(totalPointsTop);
+
+  topPlayersTable.appendChild(tableRow);
+}
+
+function clearTable(){
+  var topPlayersTable = document.getElementById('table_body');
+  topPlayersTable.textContent = '';
+}
+//=========================================
+
+//HARDCODED TEST PLAYERS
+// function PlayerInfo(name, won, played, percent, total) {
+//   this.playerName = name;
+//   this.gamesWon = won;
+//   this.gamesPlayed = played;
+//   this.percentWon = percent;
+//   this.totalPoints = total;
+//   this.ranking = 0;
+// };
 
 //HARDCODED TEST PLAYERS
 // var playerOne = new PlayerInfo('Brigitte', 5, 10, '50%', 25);
@@ -45,126 +175,6 @@ function PlayerInfo(name) {
 // var playerSix = new PlayerInfo('August', 7, 21, '33%', 35);
 // players.push(playerSix);
 // sortPlayers();
-
-retrieveLocal();
-
-var playerForm = document.getElementById('form');
-
-playerForm.addEventListener('submit', handleSubmit);
-
-function handleSubmit(event){
-  event.preventDefault();
-
-  var playerName = event.target.player_name.value;
-  var playerNameUpper = playerName.toUpperCase();
-
-  checkName();
-
-
-  function checkName() {
-    if (players.length === 0) {
-      var newPlayer = new PlayerInfo(playerNameUpper);
-      players.ranking = 1;
-      players.push(newPlayer);
-      allPlayerNames.push(playerNameUpper);
-      storeLocal();
-      return writeWelcomeMessage('Welcome ' + playerName + '!');
-    } else {
-      if (allPlayerNames.indexOf(playerNameUpper) !== -1) {
-        return writeWelcomeMessage('Welcome back, ' + playerName + '!');
-      } else if (allPlayerNames.indexOf(playerNameUpper) === -1) {
-        newPlayer = new PlayerInfo(playerNameUpper);
-        players.push(newPlayer);
-        allPlayerNames.push(playerNameUpper);
-        sortPlayers();
-        renderTable();
-        storeLocal();
-        return writeWelcomeMessage('Welcome, ' + playerName + '!');
-      } else {
-        return writeWelcomeMessage('Please try another name');
-      }
-    }
-  };
-};
-
-function writeWelcomeMessage(message) {
-  var welcomeMessage = document.getElementById('welcome_message');
-  welcomeMessage.textContent = message;//update content
-  player_input.appendChild(welcomeMessage);
-};
-
-function sortPlayers(){
-  players.sort(function(a, b) {
-    return (b.playerName) - (a.playerName);
-  });
-};
-
-// function sortPlayers(){
-//   players.sort(function(a, b) {
-//     return (b.totalPoints) - (a.totalPoints);
-//   });
-// };
-
-function storeLocal() {
-  var playersJSON = JSON.stringify(players);
-  localStorage.setItem('players', playersJSON);
-};
-
-function retrieveLocal() {
-  if (storedPlayersString) {
-    players = JSON.parse(storedPlayersString);
-  }
-};
-
-function renderTable(){
-  for (var i = 0; i < 5; i++) {
-    if (players[i].playerName !== 'Ron') {
-      renderTopPlayerRow();
-    }
-  }
-};
-
-// function renderTable(){
-//   var rank = 0;
-//   for (var i = 0; i < 5; i++) {
-//     rank = rank + 1;
-//     players[i].ranking = rank;
-//     renderTopPlayerRow();
-//   }
-// };
-
-function renderTopPlayerRow() {
-  var topPlayersTable = document.getElementById('table_body');
-  var tableRow = document.createElement('tr');
-  // var rankingTop = document.createElement('td');
-  var playerNameTop = document.createElement('td');
-  var gamesPlayedTop = document.createElement('td');
-  var gamesWonTop = document.createElement('td');
-  var percentageWonTop = document.createElement('td');
-  var totalPointsTop = document.createElement('td');
-
-    // rankingTop.textContent = players[i].ranking;
-    // tableRow.appendChild(rankingTop);
-
-  playerNameTop.textContent = players.playerName;
-  tableRow.appendChild(playerNameTop);
-
-  gamesPlayedTop.textContent = players.gamesPlayed;
-  tableRow.appendChild(gamesPlayedTop);
-
-  gamesWonTop.textContent = players.gamesWon;
-  tableRow.appendChild(gamesWonTop);
-
-  percentageWonTop.textContent = players.percentWon;
-  tableRow.appendChild(percentageWonTop);
-
-  totalPointsTop.textContent = players.totalPoints;
-  tableRow.appendChild(totalPointsTop);
-
-  topPlayersTable.appendChild(tableRow);
-}
-
-
 
 //   Pseudocoding:
 //   Player name:
