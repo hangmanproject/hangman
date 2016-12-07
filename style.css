@@ -191,3 +191,26 @@ main h2 {
   border: none;
   box-shadow: 5px 5px 3px #5C5C5C;
 }
+
+/*game (index) page*/
+#display_player_array {
+  font-family: Raleway, monospace;
+  font-size: 50px;
+  background-color: rgba(255, 255, 255, .6);
+}
+
+.letter_button {
+  font-family: Raleway;
+  font-size: 36pt;
+  color: black;
+  background-color: rgba(255, 255, 255, .7);
+  width: 80px;
+  height: 80px;
+  border-radius: 15px;
+}
+
+#end_of_game_msg {
+  font-family: Raleway;
+  font-size: 35px;
+  background-color: rgba(255, 255, 255, .6);
+}
