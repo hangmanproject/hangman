@@ -107,36 +107,26 @@
 
 
 
-
-// - display of blank spaces puzzle
-var playerAnswerArr = [];
-// - display number of incorrect guess
+// Global variables
+var playerAnswerArr = []; // blank spaces puzzle
 var incorrectGuesses = 0;
-// - store number of max guesses (stretch: for each difficulty)
 var maxEasyGuesses = 5; // will correspond with number of easy difficulty body parts
-// - generate bank of words to fill in puzzle
-var easyWords = ['ebece'];//four', 'phone', 'mouse', 'bottle', 'notebook']; // subject to change
-// a variable to store the game word
-var gameWord;
-// a variable to keep track of remaining letters
-var remainingLetters;
-var letterButton = document.getElementById('letter_buttons'); // get the element
-letterButton.addEventListener('click', handleClick); // add the listener
-var localStorageNameArr;
-var localStorageObjArr;
-var parsedLclStrgNameArr;
-var parsedlclStrgObjArr;
-var wonGame = false;
+var easyWords = ['four', 'phone', 'mouse', 'bottle', 'notebook']; // subject to change
+var gameWord; // word chosen from word array
+var remainingLetters; // remaining letters left to guess in the gameWord
+var wonGame = false; // used in checkForWin/Loss and updatePlayerStats
+var letterButton = document.getElementById('letter_buttons');
+letterButton.addEventListener('click', handleClick); // listens for a button click
+var endMessage = document.getElementById('end_of_game_msg');
+
 // - generate a hanging man
 // _______ADDRESS______________________
-var endMessage = document.getElementById('end_of_game_msg');
 
 
 // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS //
-function handleClick(event) { // create the handler
+// handles the event of a button click
+function handleClick(event) {
   event.preventDefault(); // prevent page refresh
-
-///////ADDRESS - if first click in the letter bank, add one to the game played property
 
   // determine if the event.target.value is in the gameWord array
   if (gameWord.includes(event.target.value) === true) {
@@ -151,7 +141,6 @@ function handleClick(event) { // create the handler
         // disable the button to prevent the player from selecting it again
         event.target.disabled = true;
         checkForWin();
-        // nothing happens to the hangman, nothing happens in the max guesses
       }
     }
   } else if (gameWord.includes(event.target.value) === false) {
@@ -159,11 +148,8 @@ function handleClick(event) { // create the handler
     displayPlayerArray(playerAnswerArr);
 
     //       - one body part gets added to the hangman
-      // renderBodyPart()
 
-    // incorrectGuesses increases by 1 OR max guesses display goes down one
-    incorrectGuesses += 1;
-    console.log('incorrectGuesses: ', incorrectGuesses);
+    incorrectGuesses += 1; // incorrectGuesses increases by 1
     // disable the button to prevent the player from selecting it again
     event.target.disabled = true;
     checkForLoss();
@@ -171,57 +157,56 @@ function handleClick(event) { // create the handler
 }
 
 function checkForWin() {
-  if (remainingLetters === 0) { // if the player has won
+  if (remainingLetters === 0) { // if the player has guessed all the letters
     wonGame = true;
-    // disable the buttons, display the solved gameWord, and inform the player that they won
+    // disable the buttons, display the solved gameWord, inform the player that they won, and updatePlayerStats
     letterButton.removeEventListener('click', handleClick);
     displayPlayerArray(playerAnswerArr);
     endMessage.textContent = 'Congrats! You won and saved the hangman!';
-    //   - log win and add points to total points on the user object and set to local storage
-
     updatePlayerStats();
     //   - refresh page?
   }
 }
 
 function checkForLoss() {
-  if (remainingLetters > 0 && incorrectGuesses === maxEasyGuesses) { // if player has lost
+  if (remainingLetters > 0 && incorrectGuesses === maxEasyGuesses) {
     wonGame = false;
     //   - hangman will have all parts
     //   - display correct letters in the puzzle as the answer
 
-    // disable the buttons and inform the player that they lost
+    // disable the buttons, inform the player that they lost, and updatePlayerStats
     letterButton.removeEventListener('click', handleClick);
     endMessage.textContent = 'You failed to guess \'' + gameWord + '.\' A man has been hanged today. You lose.';
-
     updatePlayerStats();
     //   - refresh page?
   }
 }
 
 function updatePlayerStats() {
-  //get the name array from local storage
+  var localStorageNameArr;
+  var localStorageObjArr;
+  var parsedLclStrgNameArr;
+  var parsedlclStrgObjArr;
+  // get the name array from local storage and parse from JSON to js
   localStorageNameArr = localStorage.getItem('allPlayerNames');
-  //parse the JSON to js
   parsedLclStrgNameArr = JSON.parse(localStorageNameArr);
-  //pop off the last element (the current logged in user) and store it on variable
+  // pop off the last element (the current logged in user) and store it on a variable
   var playerToCheck = parsedLclStrgNameArr.pop();
-  //get the player object array from local storage
+  // get the player object array from local storage and parse from JSON to js
   localStorageObjArr = localStorage.getItem('players');
-  //parse the JSON to js
   parsedlclStrgObjArr = JSON.parse(localStorageObjArr);
-  //compare the name variable to the player names in the object array
+  // compare the playerToCheck to the player names in the object array
   for (var i = 0; i < parsedlclStrgObjArr.length; i++) {
-    //if there's a match update other properties
+    // if there's a name match, update other object properties
     if (playerToCheck === parsedlclStrgObjArr[i].playerName) {
       parsedlclStrgObjArr[i].gamesPlayed ++;
       if (wonGame === true) {
-        parsedlclStrgObjArr[i].totalPoints += 23;
+        parsedlclStrgObjArr[i].totalPoints += 23; ////////THIS WILL PROBABLY CHANGE///////////////
         parsedlclStrgObjArr[i].gamesWon ++;
       }
     }
   }
-  //set it back to local storage
+  // stringify the updated array and set it back to local storage
   var playersJSON = JSON.stringify(parsedlclStrgObjArr);
   localStorage.setItem('players', playersJSON);
 }
