@@ -11,7 +11,7 @@ function PlayerInfo(name) {
   this.gamesWon = 0;
   this.gamesPlayed = 0;
   this.percentWon = 0;
-  this.percentDisplay = '';
+  this.percentDisplay = '%';
   this.totalPoints = 0;
   this.ranking = 0;
 };
