@@ -26,7 +26,7 @@ function handleSubmit(event){
 
   var playerName = event.target.player_name.value;
   var playerNameUpper = playerName.toUpperCase();
-  var totalPoints = event.target.total_points.value;
+  //var totalPoints = event.target.total_points.value;
 
   checkName();
 
@@ -34,7 +34,6 @@ function handleSubmit(event){
     if (players.length === 0) {
       var newPlayer = new PlayerInfo(playerNameUpper);
       newPlayer.ranking = 1;
-      newPlayer.totalPoints = totalPoints;
       players.push(newPlayer);
       allPlayerNames.push(playerNameUpper);
       renderTopPlayerRow(newPlayer);
@@ -43,7 +42,6 @@ function handleSubmit(event){
     } else {
       var playerIndex = allPlayerNames.indexOf(playerNameUpper);
       if (playerIndex !== -1) {
-        players[playerIndex].totalPoints = totalPoints;
         allPlayerNames.push(playerNameUpper);
         sortPlayers();
         renderTable();
@@ -51,7 +49,6 @@ function handleSubmit(event){
       } else if (playerIndex === -1) {
         newPlayer = new PlayerInfo(playerNameUpper);
         players.push(newPlayer);
-        newPlayer.totalPoints = totalPoints;
         allPlayerNames.push(playerNameUpper);
         sortPlayers();
         renderTable();
@@ -60,6 +57,7 @@ function handleSubmit(event){
       } else {
         return writeWelcomeMessage('Please try another name');
       }
+      storeLocal();
     }
   };
 };
@@ -96,6 +94,8 @@ function retrieveLocal() {
     renderTable();
   }
 };
+
+
 
 function renderTable(){
   clearTable();

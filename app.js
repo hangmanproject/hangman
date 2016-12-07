@@ -122,7 +122,6 @@ var endMessage = document.getElementById('end_of_game_msg');
 // - generate a hanging man
 // _______ADDRESS______________________
 
-
 // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS //
 // handles the event of a button click
 function handleClick(event) {
