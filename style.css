@@ -193,20 +193,30 @@ main h2 {
 }
 
 /*game (index) page*/
+#game_elements {
+  width: 960px;
+  margin: 0px auto 300px auto;
+  background-color: rgba(255, 255, 255, .8);
+  position: relative;
+  bottom: 350px;
+
+}
+
 #display_player_array {
   font-family: Raleway, monospace;
   font-size: 50px;
-  background-color: rgba(255, 255, 255, .6);
 }
 
 .letter_button {
   font-family: Raleway;
-  font-size: 36pt;
+  font-size: 14pt;
   color: black;
   background-color: rgba(255, 255, 255, .7);
-  width: 80px;
-  height: 80px;
-  border-radius: 15px;
+  width: 30px;
+  height: 30px;
+  border-radius: 3px;
+  text-align: center;
+  margin-top: 15px;
 }
 
 #end_of_game_msg {
