@@ -4,12 +4,14 @@ var players = [];
 var allPlayerNames  = [];
 var storedPlayersString = localStorage.getItem('players');
 var storedNamesString = localStorage.getItem('allPlayerNames');
+var playerName;
 
 function PlayerInfo(name) {
   this.playerName = name;
   this.gamesWon = 0;
   this.gamesPlayed = 0;
   this.percentWon = 0;
+  this.percentDisplay = '';
   this.totalPoints = 0;
   this.ranking = 0;
 };
@@ -26,7 +28,7 @@ playerForm.addEventListener('submit', handleSubmit);
 function handleSubmit(event){
   event.preventDefault();
 
-  var playerName = event.target.player_name.value;
+  playerName = event.target.player_name.value;
   var playerNameUpper = playerName.toUpperCase();
   //var totalPoints = event.target.total_points.value;
 
@@ -97,8 +99,6 @@ function retrieveLocal() {
   }
 };
 
-
-
 function renderTable(){
   clearTable();
   var rank = 0;
@@ -136,7 +136,7 @@ function renderTopPlayerRow(newPlayer) {
   gamesWonTop.textContent = newPlayer.gamesWon;
   tableRow.appendChild(gamesWonTop);
 
-  percentageWonTop.textContent = newPlayer.percentWon;
+  percentageWonTop.textContent = newPlayer.percentDisplay;
   tableRow.appendChild(percentageWonTop);
 
   totalPointsTop.textContent = newPlayer.totalPoints;
@@ -149,6 +149,19 @@ function clearTable(){
   var topPlayersTable = document.getElementById('table_body');
   topPlayersTable.textContent = '';
 }
+
+var gameForm = document.getElementById('button');
+
+gameForm.addEventListener('submit', handleGameSubmit);
+
+function handleGameSubmit(event){
+  if (playerName){
+  } else {
+    event.preventDefault();
+    alert('You must identify yourself to continue. Own it.');
+  }
+};
+
 //=========================================
 
 //HARDCODED TEST PLAYERS

@@ -8,11 +8,7 @@
 //   this.percentWon = 0;
 //   this.totalPoints = 0;
 // };
-// // Top player stats to display: ranking, player name, total points, and show top 5 players in list in order of total points.
-// function calculatePercentWon () {
-//   var numberWon = ((this.gamesWon / this.gamesPlayed) * 100);
-//   this.percentWon = numberWon + '%';
-// }
+// Top player stats to display: ranking, player name, total points, and show top 5 players in list in order of total points.
 // function calculateTotalPoints() {
 //   var total = (this.gamesWon * 5);
 //   this.totalPoints = total;
@@ -203,6 +199,9 @@ function updatePlayerStats() {
         parsedlclStrgObjArr[i].totalPoints += 23; ////////THIS WILL PROBABLY CHANGE///////////////
         parsedlclStrgObjArr[i].gamesWon ++;
       }
+      var numberWon = Math.round((parsedlclStrgObjArr[i].gamesWon / parsedlclStrgObjArr[i].gamesPlayed) * 100);
+      parsedlclStrgObjArr[i].percentWon = numberWon;
+      parsedlclStrgObjArr[i].percentDisplay = numberWon + '%';
     }
   }
   // stringify the updated array and set it back to local storage
