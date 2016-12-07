@@ -125,7 +125,9 @@ h1 {
   color: #5D5D5D;
   text-align: center;
   margin: 0px auto 0 auto;
-  padding: 10px 80px;
+  padding: 10px 80px 60px 80px;
+  position: relative;
+  bottom: 400px;
 }
 
 table {
