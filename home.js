@@ -15,6 +15,8 @@ function PlayerInfo(name) {
 };
 
 retrieveLocal();
+sortPlayers();
+renderTable();
 
 
 var playerForm = document.getElementById('form');
@@ -45,6 +47,7 @@ function handleSubmit(event){
         allPlayerNames.push(playerNameUpper);
         sortPlayers();
         renderTable();
+        storeLocal();
         return writeWelcomeMessage('Welcome back, ' + playerName + '. You know the stakes.');
       } else if (playerIndex === -1) {
         newPlayer = new PlayerInfo(playerNameUpper);
@@ -57,7 +60,6 @@ function handleSubmit(event){
       } else {
         return writeWelcomeMessage('Please try another name');
       }
-      storeLocal();
     }
   };
 };
