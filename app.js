@@ -57,15 +57,15 @@ var c = canvas.getContext('2d');
 //reset the canvas and set the basic styles
 canvas.width = canvas.width;
 c.lineWidth = 10;
-c.strokeStyle = 'green';
+c.strokeStyle = 'black';
 c.font = 'bold 24px Optimer, Arial, Helvetica, sans-serif';
-c.fillStyle = 'red';
+c.fillStyle = 'black';
 //draw the ground
 drawLine(c, [20,190], [180,190]);
 //start building the gallows if there's been a bad guess
 //if (incorrectGuesses > 0) {
 //create the upright
-c.strokeStyle = '#A52A2A';
+c.strokeStyle = 'black';
 drawLine(c, [30,185], [30,10]);
 //if (incorrectGuesses > 1) {
 //create the arm gallows
