@@ -118,28 +118,20 @@ var playAgainButton = document.getElementById('play_again_btn');
 playAgainButton.addEventListener('click', handlePlayAgain);
 var endMessage = document.getElementById('end_of_game_msg');
 
-function handlePlayAgain(event) {
-  //event.preventDefault();
-  //display.target.display_player_array.value = '';
-  //display.textContent = '';
-  //playAgainButton.onclick = clearPlayerArray;
-  //clearPlayerArray();
-  runGame();
 
-  function clearPlayerArray() {
-    console.log('var display', display);
-    // remove the child node
-    display.textContent = '';
-    // append the child
-    console.log('display.textContent: ', display.textContent);
-    playerAnswerArr = [];//display.innerHTML = '';
-  }
-}
 // - generate a hanging man
 // _______ADDRESS______________________
 
 // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS //
 // handles the event of a button click
+function handlePlayAgain(event) {
+  // reloads the page and starts it at the top
+  window.location.reload();
+  window.onbeforeunload = function () {
+    window.scrollTo(0, 0);
+  };
+}
+
 function handleClick(event) {
   event.preventDefault(); // prevent page refresh
 
@@ -253,7 +245,8 @@ function displayPlayerArray(playerAnswerArr) {
 
 function runGame(){
   playerAnswerArr = [];
-  letterButton.addEventListener('click', handleClick); // listens for a button click
+  // letterButton.addEventListener('click', handleClick); // listens for a button click
+  // letterButton.disabled = false;
   // assign the gameWord
   gameWord = pickWord(easyWords);
   // set the remainingLetters left to guess
