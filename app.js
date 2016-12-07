@@ -1,5 +1,8 @@
 'use strict';
 
+var canvas = document.getElementById('stage'),
+  ctx = canvas.getContext('2d');
+
 // Variables/Components:
 function PlayerInfo(name) {
   this.playerName = name;
@@ -41,67 +44,66 @@ function toHtml () {
 }
 //I wrote the functions to calculate the percent won and the total points. I made an ordered list with an h2 header that states the player name. The first list item is the percent won and the second list item is the total points.
 
-var canvas = document.getElementById('stage'),
-  ctx = canvas.getContext('2d');
-
-function drawLine(context , from, to) {
+function drawLine(ctx , from, to) {
   ctx.beginPath();
   ctx.moveTo(from[0], from[1]);
   ctx.lineTo(to[0], to[1]);
   ctx.stroke();
 }
-drawLine(c, [0,0], [100,50]);
+drawLine(ctx, [0,0], [100,50]);
 //Draw the canvas
 function drawCanvas() {
-  var c = canvas.getContext('2d');
+//var c = canvas.getContext('2d');
 //reset the canvas and set the basic styles
   canvas.width = canvas.width;
-  c.lineWidth = 10;
-  c.strokeStyle = 'black';
-  c.fillStyle = 'black';
+  ctx.lineWidth = 10;
+  ctx.strokeStyle = 'black';
+  ctx.fillStyle = 'black';
 //draw the ground
-  drawLine(c, [20,190], [180,190]);
+  drawLine(ctx, [20,190], [180,190]);
 //start building the gallows if there's been a bad guess
-    if (incorrectGuesses > 0) {
+  if (incorrectGuesses > 0) {
 //create the upright
-      c.strokeStyle = 'black';
-      drawLine(c, [30,185], [30,10]);
-    if (incorrectGuesses > 1) {
+    ctx.strokeStyle = 'black';
+    drawLine(ctx, [30,185], [30,10]);
+  }
+  if (incorrectGuesses > 1) {
 //create the arm gallows
-      c.lineTo(150,10);
-      c.stroke();
-    }
-    if (incorrectGuesses > 2) {
-      c.strokeStyle = 'black';
-      c.lineWidth = 3;
+    ctx.lineTo(150,10);
+    ctx.stroke();
+  }
+  if (incorrectGuesses > 2) {
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 3;
 //draw rope
-      drawLine(c, [145,15], [145,30]);
+    drawLine(ctx, [145,15], [145,30]);
 //draw head
-      c.beginPath();
-      c.moveTo(160, 45);
-      c.arc(145, 45, 15, 0, (Math.PI / 180) * 360);
-      c.stroke();
-    }
-    if (incorrectGuesses > 3) {
+    ctx.beginPath();
+    ctx.moveTo(160, 45);
+    ctx.arc(145, 45, 15, 0, (Math.PI / 180) * 360);
+    ctx.stroke();
+  }
+  if (incorrectGuesses > 3) {
 //draw body
-      drawLine(c, [145,60], [145,130]);
-    }
-    if (incorrectGuesses > 4) {
+    drawLine(ctx, [145,60], [145,130]);
+  }
+  if (incorrectGuesses > 4) {
 //draw left arm
-      drawLine(c, [145,80], [110,90]);
-    }
-    if (incorrectGuesses > 5) {
+    drawLine(ctx, [145,80], [110,90]);
+  }
+  if (incorrectGuesses > 5) {
 //draw right arm
-      drawLine(c, [145,80], [180,90]);
-    }
-    if (incorrectGuesses > 6) {
+    drawLine(ctx, [145,80], [180,90]);
+  }
+  if (incorrectGuesses > 6) {
 //draw left leg
-      drawLine(c, [145,130], [130,170]);
-    }
-    if (incorrectGuesses > 7) {
+    drawLine(ctx, [145,130], [130,170]);
+  }
+  if (incorrectGuesses > 7) {
 //draw right leg and end game
-      drawLine(c, [145,130], [160,170]);
-    }
+    drawLine(ctx, [145,130], [160,170]);
+  }
+}
 //this is the code that makes the hangman image. The if statement is creating the added limb to the image each time they use up one of the guesses or 'lives'.
 var playerForm = document.getElementById('form');
 //var welcomeMessage = document.getElementById('welcome_message');
@@ -215,7 +217,7 @@ var playerAnswerArr = [];
 // Global variables
 var playerAnswerArr = []; // blank spaces puzzle
 var incorrectGuesses = 0;
-var maxEasyGuesses = 5; // will correspond with number of easy difficulty body parts
+var maxEasyGuesses = 9; // will correspond with number of easy difficulty body parts
 var easyWords = ['four', 'phone', 'mouse', 'bottle', 'notebook']; // subject to change
 var gameWord; // word chosen from word array
 var remainingLetters; // remaining letters left to guess in the gameWord
@@ -258,6 +260,7 @@ function handleClick(event) {
     event.target.disabled = true;
     checkForLoss();
   }
+  drawCanvas();
 }
 
 function checkForWin() {
