@@ -4,17 +4,21 @@ var players = [];
 var allPlayerNames  = [];
 var storedPlayersString = localStorage.getItem('players');
 var storedNamesString = localStorage.getItem('allPlayerNames');
+var playerName;
 
 function PlayerInfo(name) {
   this.playerName = name;
   this.gamesWon = 0;
   this.gamesPlayed = 0;
   this.percentWon = 0;
+  this.percentDisplay = '';
   this.totalPoints = 0;
   this.ranking = 0;
 };
 
 retrieveLocal();
+sortPlayers();
+renderTable();
 
 
 var playerForm = document.getElementById('form');
@@ -24,9 +28,9 @@ playerForm.addEventListener('submit', handleSubmit);
 function handleSubmit(event){
   event.preventDefault();
 
-  var playerName = event.target.player_name.value;
+  playerName = event.target.player_name.value;
   var playerNameUpper = playerName.toUpperCase();
-  var totalPoints = event.target.total_points.value;
+  //var totalPoints = event.target.total_points.value;
 
   checkName();
 
@@ -34,7 +38,6 @@ function handleSubmit(event){
     if (players.length === 0) {
       var newPlayer = new PlayerInfo(playerNameUpper);
       newPlayer.ranking = 1;
-      newPlayer.totalPoints = totalPoints;
       players.push(newPlayer);
       allPlayerNames.push(playerNameUpper);
       renderTopPlayerRow(newPlayer);
@@ -43,15 +46,14 @@ function handleSubmit(event){
     } else {
       var playerIndex = allPlayerNames.indexOf(playerNameUpper);
       if (playerIndex !== -1) {
-        players[playerIndex].totalPoints = totalPoints;
         allPlayerNames.push(playerNameUpper);
         sortPlayers();
         renderTable();
+        storeLocal();
         return writeWelcomeMessage('Welcome back, ' + playerName + '. You know the stakes.');
       } else if (playerIndex === -1) {
         newPlayer = new PlayerInfo(playerNameUpper);
         players.push(newPlayer);
-        newPlayer.totalPoints = totalPoints;
         allPlayerNames.push(playerNameUpper);
         sortPlayers();
         renderTable();
@@ -134,7 +136,7 @@ function renderTopPlayerRow(newPlayer) {
   gamesWonTop.textContent = newPlayer.gamesWon;
   tableRow.appendChild(gamesWonTop);
 
-  percentageWonTop.textContent = newPlayer.percentWon;
+  percentageWonTop.textContent = newPlayer.percentDisplay;
   tableRow.appendChild(percentageWonTop);
 
   totalPointsTop.textContent = newPlayer.totalPoints;
@@ -147,6 +149,19 @@ function clearTable(){
   var topPlayersTable = document.getElementById('table_body');
   topPlayersTable.textContent = '';
 }
+
+var gameForm = document.getElementById('button');
+
+gameForm.addEventListener('submit', handleGameSubmit);
+
+function handleGameSubmit(event){
+  if (playerName){
+  } else {
+    event.preventDefault();
+    alert('You must identify yourself to continue. Own it.');
+  }
+};
+
 //=========================================
 
 //HARDCODED TEST PLAYERS
