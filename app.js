@@ -126,6 +126,7 @@ var localStorageNameArr;
 var localStorageObjArr;
 var parsedLclStrgNameArr;
 var parsedlclStrgObjArr;
+var wonGame = false;
 // - generate a hanging man
 // _______ADDRESS______________________
 var endMessage = document.getElementById('end_of_game_msg');
@@ -171,37 +172,58 @@ function handleClick(event) { // create the handler
 
 function checkForWin() {
   if (remainingLetters === 0) { // if the player has won
+    wonGame = true;
     // disable the buttons, display the solved gameWord, and inform the player that they won
     letterButton.removeEventListener('click', handleClick);
     displayPlayerArray(playerAnswerArr);
     endMessage.textContent = 'Congrats! You won and saved the hangman!';
     //   - log win and add points to total points on the user object and set to local storage
-    //////////CHECK BELOW/////CHECK BELOW/////////////////
-    //get the name array from local storage
-    localStorageNameArr = localStorage.getItem('allPlayerNames');
-    //parse the JSON to js
-    parsedLclStrgNameArr = JSON.parse(localStorageNameArr);
-    //pop off the last element (the current logged in user) and store it on variable
-    //get the player object array from local storage
-    //parse the JSON to js
-    //compare the name variable to the player names in the object array
-    //if there's a match update other properties
-    PlayerInfo.gamesWon ++;
-    PlayerInfo.totalPoints += 1;
+
+    updatePlayerStats();
     //   - refresh page?
   }
 }
 
 function checkForLoss() {
   if (remainingLetters > 0 && incorrectGuesses === maxEasyGuesses) { // if player has lost
+    wonGame = false;
     //   - hangman will have all parts
     //   - display correct letters in the puzzle as the answer
 
     // disable the buttons and inform the player that they lost
     letterButton.removeEventListener('click', handleClick);
     endMessage.textContent = 'You failed to guess \'' + gameWord + '.\' A man has been hanged today. You lose.';
+
+    updatePlayerStats();
     //   - refresh page?
   }
+}
+
+function updatePlayerStats() {
+  //get the name array from local storage
+  localStorageNameArr = localStorage.getItem('allPlayerNames');
+  //parse the JSON to js
+  parsedLclStrgNameArr = JSON.parse(localStorageNameArr);
+  //pop off the last element (the current logged in user) and store it on variable
+  var playerToCheck = parsedLclStrgNameArr.pop();
+  //get the player object array from local storage
+  localStorageObjArr = localStorage.getItem('players');
+  //parse the JSON to js
+  parsedlclStrgObjArr = JSON.parse(localStorageObjArr);
+  //compare the name variable to the player names in the object array
+  for (var i = 0; i < parsedlclStrgObjArr.length; i++) {
+    //if there's a match update other properties
+    if (playerToCheck === parsedlclStrgObjArr[i].playerName) {
+      parsedlclStrgObjArr[i].gamesPlayed ++;
+      if (wonGame === true) {
+        parsedlclStrgObjArr[i].totalPoints += 23;
+        parsedlclStrgObjArr[i].gamesWon ++;
+      }
+    }
+  }
+  //set it back to local storage
+  var playersJSON = JSON.stringify(parsedlclStrgObjArr);
+  localStorage.setItem('players', playersJSON);
 }
 
 // pass in a word array to select a random word from it to assign to gameWord
