@@ -123,7 +123,7 @@ var endMessage = document.getElementById('end_of_game_msg');
 // _______ADDRESS______________________
 
 // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS //
-// handles the event of a button click
+// handles the event when 'play again' button is clicked
 function handlePlayAgain(event) {
   // reloads the page and starts it at the top
   window.location.reload();
@@ -132,6 +132,7 @@ function handlePlayAgain(event) {
   };
 }
 
+// handles the event of a letter button click
 function handleClick(event) {
   event.preventDefault(); // prevent page refresh
 
