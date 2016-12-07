@@ -303,14 +303,16 @@ function updatePlayerStats() {
   for (var i = 0; i < parsedlclStrgObjArr.length; i++) {
     // if there's a name match, update other object properties
     if (playerToCheck === parsedlclStrgObjArr[i].playerName) {
+      var currentPlayer = parsedlclStrgObjArr[i];
       parsedlclStrgObjArr[i].gamesPlayed ++;
       if (wonGame === true) {
         parsedlclStrgObjArr[i].totalPoints += 23; ////////THIS WILL PROBABLY CHANGE///////////////
         parsedlclStrgObjArr[i].gamesWon ++;
       }
       var numberWon = Math.round((parsedlclStrgObjArr[i].gamesWon / parsedlclStrgObjArr[i].gamesPlayed) * 100);
-      parsedlclStrgObjArr[i].percentWon = numberWon;
+      numberWon = parsedlclStrgObjArr[i].percentWon;
       parsedlclStrgObjArr[i].percentDisplay = numberWon + '%';
+      renderPlayerStatsRow(currentPlayer);
     }
   }
   // stringify the updated array and set it back to local storage
@@ -353,3 +355,52 @@ function runGame(){
 
 //*****EXECUTE CODE*******************EXECUTE CODE**********************
 runGame();
+
+//Player stats
+// function renderTable(){
+//   clearTable();
+//   if (currentPlayer.ranking) {
+//     playersLength = 5;
+//   }
+//     renderPlayerStatsRow(currentPlayer);
+//   }
+// };
+
+function renderPlayerStatsRow(currentPlayer) {
+  var playerStatsTable = document.getElementById('stats_table_body');
+  var playerTableRow = document.createElement('tr');
+  var rankingPlayer = document.createElement('td');
+  var playerNamePlayer = document.createElement('td');
+  var gamesPlayedPlayer = document.createElement('td');
+  var gamesWonPlayer = document.createElement('td');
+  var percentageWonPlayer = document.createElement('td');
+  var totalPointsPlayer = document.createElement('td');
+
+  playerTableRow.appendChild(rankingPlayer);
+
+  playerNamePlayer.textContent = currentPlayer.playerName;
+  playerTableRow.appendChild(playerNamePlayer);
+
+  gamesPlayedPlayer.textContent = currentPlayer.gamesPlayed;
+  playerTableRow.appendChild(gamesPlayedPlayer);
+
+  gamesWonPlayer.textContent = currentPlayer.gamesWon;
+  playerTableRow.appendChild(gamesWonPlayer);
+
+  percentageWonPlayer.textContent = currentPlayer.percentDisplay;
+  playerTableRow.appendChild(percentageWonPlayer);
+
+  totalPointsPlayer.textContent = currentPlayer.totalPoints;
+  playerTableRow.appendChild(totalPointsPlayer);
+
+  if (currentPlayer.ranking <= 5) {
+    rankingPlayer.textContent = currentPlayer.ranking;
+  } else {
+    rankingPlayer.textContent = 'Not Ranked';
+  }
+  playerStatsTable.appendChild(playerTableRow);
+};
+// function clearTable(){
+//   var playerStatsTable = document.getElementById('stats_table_body');
+//   playerStatsTable.textContent = '';
+// };

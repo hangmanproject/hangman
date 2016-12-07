@@ -30,7 +30,6 @@ function handleSubmit(event){
 
   playerName = event.target.player_name.value;
   var playerNameUpper = playerName.toUpperCase();
-  //var totalPoints = event.target.total_points.value;
 
   checkName();
 
@@ -64,6 +63,7 @@ function handleSubmit(event){
       }
     }
   };
+  clearForm();
 };
 
 function writeWelcomeMessage(message) {
@@ -72,15 +72,19 @@ function writeWelcomeMessage(message) {
   player_input.appendChild(welcomeMessage);
 };
 
-// function clearForm() {
-//   if(playerForm) {
-//     document.player_form.reset();
-//   }
-// };
+function clearForm() {
+  if(playerForm) {
+    document.player_form.reset();
+  }
+};
 
 function sortPlayers(){
   players.sort(function(a, b) {
-    return (b.totalPoints) - (a.totalPoints);
+    if (a.totalPoints === b.totalPoints) {
+      return (b.percentWon) - (a.percentWon);
+    } else {
+      return (b.totalPoints) - (a.totalPoints);
+    }
   });
 };
 
@@ -143,12 +147,12 @@ function renderTopPlayerRow(newPlayer) {
   tableRow.appendChild(totalPointsTop);
 
   topPlayersTable.appendChild(tableRow);
-}
+};
 
 function clearTable(){
   var topPlayersTable = document.getElementById('table_body');
   topPlayersTable.textContent = '';
-}
+};
 
 var gameForm = document.getElementById('button');
 
@@ -161,60 +165,3 @@ function handleGameSubmit(event){
     alert('You must identify yourself to continue. Own it.');
   }
 };
-
-//=========================================
-
-//HARDCODED TEST PLAYERS
-// function PlayerInfo(name, won, played, percent, total) {
-//   this.playerName = name;
-//   this.gamesWon = won;
-//   this.gamesPlayed = played;
-//   this.percentWon = percent;
-//   this.totalPoints = total;
-//   this.ranking = 0;
-// };
-
-//HARDCODED TEST PLAYERS
-// var playerOne = new PlayerInfo('Brigitte', 5, 10, '50%', 25);
-// players.push(playerOne);
-//
-// var playerTwo = new PlayerInfo('Nicole', 7, 7, '100%', 35);
-// players.push(playerTwo);
-// sortPlayers();
-//
-// var playerThree = new PlayerInfo('Gretchen', 8, 10, '80%', 40);
-// players.push(playerThree);
-// sortPlayers();
-//
-// var playerFour = new PlayerInfo('Anne', 12, 16, '75%', 60);
-// players.push(playerFour);
-// sortPlayers();
-//
-// var playerFive = new PlayerInfo('Eric', 6, 6, '100%', 30);
-// players.push(playerFive);
-// sortPlayers();
-//
-// var playerSix = new PlayerInfo('August', 7, 21, '33%', 35);
-// players.push(playerSix);
-// sortPlayers();
-
-//   Pseudocoding:
-//   Player name:
-//   - user to enter chosen name
-//     - set to uppercase/lowercase (check on if numbers/characteristics are ok)
-//     - loop through local storage to see if chosen name has been used before
-//       - if chosen doesn't exist, create new player object
-//       - if chosen name does exist, load previously stored information for that name
-//     - possibly add message to welcome new or old player
-//   Select game:
-//   - user to select game to play
-//     - if user has not entered player name
-//       - stay on page and alert them to log in
-//     - if user has entered name
-//       - user to move to the game page
-// Top player stats:
-// - to display
-//   - ranking
-//   - player name
-//   - total points
-// - show top 5 players in list in order of total points
