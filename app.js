@@ -52,55 +52,56 @@ function drawLine(context , from, to) {
 }
 drawLine(c, [0,0], [100,50]);
 //Draw the canvas
-//function drawCanvas()
-var c = canvas.getContext('2d');
+function drawCanvas() {
+  var c = canvas.getContext('2d');
 //reset the canvas and set the basic styles
-canvas.width = canvas.width;
-c.lineWidth = 10;
-c.strokeStyle = 'black';
-c.fillStyle = 'black';
+  canvas.width = canvas.width;
+  c.lineWidth = 10;
+  c.strokeStyle = 'black';
+  c.fillStyle = 'black';
 //draw the ground
-drawLine(c, [20,190], [180,190]);
+  drawLine(c, [20,190], [180,190]);
 //start building the gallows if there's been a bad guess
-//if (incorrectGuesses > 0) {
+    if (incorrectGuesses > 0) {
 //create the upright
-c.strokeStyle = 'black';
-drawLine(c, [30,185], [30,10]);
-//if (incorrectGuesses > 1) {
+      c.strokeStyle = 'black';
+      drawLine(c, [30,185], [30,10]);
+    if (incorrectGuesses > 1) {
 //create the arm gallows
-c.lineTo(150,10);
-c.stroke();
-//}
-//if (incorrectGuesses > 2) {
-c.strokeStyle = 'black';
-c.lineWidth = 3;
+      c.lineTo(150,10);
+      c.stroke();
+    }
+    if (incorrectGuesses > 2) {
+      c.strokeStyle = 'black';
+      c.lineWidth = 3;
 //draw rope
-drawLine(c, [145,15], [145,30]);
+      drawLine(c, [145,15], [145,30]);
 //draw head
-c.beginPath();
-c.moveTo(160, 45);
-c.arc(145, 45, 15, 0, (Math.PI / 180) * 360);
-c.stroke();
-//}
-//if (incorrectGuesses > 3) {
+      c.beginPath();
+      c.moveTo(160, 45);
+      c.arc(145, 45, 15, 0, (Math.PI / 180) * 360);
+      c.stroke();
+    }
+    if (incorrectGuesses > 3) {
 //draw body
-drawLine(c, [145,60], [145,130]);
-//}
-//if (incorrectGuesses > 4) {
+      drawLine(c, [145,60], [145,130]);
+    }
+    if (incorrectGuesses > 4) {
 //draw left arm
-drawLine(c, [145,80], [110,90]);
-//}
-//if (incorrectGuesses > 5) {
+      drawLine(c, [145,80], [110,90]);
+    }
+    if (incorrectGuesses > 5) {
 //draw right arm
-drawLine(c, [145,80], [180,90]);
-//}
-//if  (incorrectGuesses > 6) {
+      drawLine(c, [145,80], [180,90]);
+    }
+    if (incorrectGuesses > 6) {
 //draw left leg
-drawLine(c, [145,130], [130,170]);
-//}
-//if (incorrectGuesses > 7) {
+      drawLine(c, [145,130], [130,170]);
+    }
+    if (incorrectGuesses > 7) {
 //draw right leg and end game
-drawLine(c, [145,130], [160,170]);
+      drawLine(c, [145,130], [160,170]);
+    }
 //this is the code that makes the hangman image. The if statement is creating the added limb to the image each time they use up one of the guesses or 'lives'.
 var playerForm = document.getElementById('form');
 //var welcomeMessage = document.getElementById('welcome_message');
