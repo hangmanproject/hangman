@@ -1,9 +1,62 @@
 'use strict';
 
+var canvas = document.getElementById('stage'),
+  ctx = canvas.getContext('2d');
+
+//HANGMAN DRAWING DOWN BELOW:
+function drawLine(ctx , from, to) {
+  ctx.beginPath();
+  ctx.moveTo(from[0], from[1]);
+  ctx.lineTo(to[0], to[1]);
+  ctx.stroke();
+}
+drawLine(ctx, [0,0], [100,50]);
+function drawCanvas() {
+  canvas.width = canvas.width; //resetting the canvas everytime
+  ctx.lineWidth = 10; //setting the basic styles
+  ctx.strokeStyle = 'black'; //setting the basic styles
+  ctx.fillStyle = 'black'; //setting the basic styles
+  drawLine(ctx, [20,190], [180,190]); //draws the ground
+  if (incorrectGuesses >= 1) { //creates the upright gallows:
+    ctx.strokeStyle = 'black';
+    drawLine(ctx, [30,185], [30,10]);
+  }
+  if (incorrectGuesses >= 1) { //creates the arm gallows:
+    ctx.lineTo(150,10);
+    ctx.stroke();
+  }
+  if (incorrectGuesses >= 2) { //creates the noose:
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 3;
+    drawLine(ctx, [145,15], [145,30]);
+
+    ctx.beginPath(); //creates the head:
+    ctx.moveTo(160, 45);
+    ctx.arc(145, 45, 15, 0, (Math.PI / 180) * 360);
+    ctx.stroke();
+  }
+  if (incorrectGuesses >= 3) { //creates the body:
+    drawLine(ctx, [145,60], [145,130]);
+  }
+  if (incorrectGuesses >= 4) { //creates the left arm:
+    drawLine(ctx, [145,80], [110,90]);
+  }
+  if (incorrectGuesses >= 5) { //creates the right arm:
+    drawLine(ctx, [145,80], [180,90]);
+  }
+  if (incorrectGuesses >= 6) { //creates the left leg:
+    drawLine(ctx, [145,130], [130,170]);
+  }
+  if (incorrectGuesses >= 7) { //creates the right leg and ends game
+    drawLine(ctx, [145,130], [160,170]);
+  }
+}
+//HANGMAN DRAWING UP ABOVE
+
 // Global variables
 var playerAnswerArr = []; // blank spaces puzzle
 var incorrectGuesses = 0;
-var maxEasyGuesses = 5; // will correspond with number of easy difficulty body parts
+var maxEasyGuesses = 7; // will correspond with number of easy difficulty body parts
 var easyWords = ['four', 'phone', 'mouse', 'bottle', 'notebook']; // subject to change
 var gameWord; // word chosen from word array
 var remainingLetters; // remaining letters left to guess in the gameWord
@@ -19,10 +72,9 @@ var localStorageNameArr = localStorage.getItem('allPlayerNames');
 var localStorageObjArr  = localStorage.getItem('players');
 var parsedLclStrgNameArr = JSON.parse(localStorageNameArr);   // get the name array from local storage and parse from JSON to js
 var parsedlclStrgObjArr  = JSON.parse(localStorageObjArr);   // get the player object array from local storage and parse from JSON to js
+var currentPlayer = parsedlclStrgObjArr[0];
 
 retrieveLocal();
-var currentPlayer = parsedlclStrgObjArr[0];
-var numberWon = 0;
 findCurrentPlayer();
 renderPlayerStatsRow(currentPlayer);
 
@@ -87,6 +139,7 @@ function handleClick(event) {
     event.target.disabled = true;
     checkForLoss();
   }
+  drawCanvas();
 }
 
 function checkForWin() {
@@ -105,6 +158,7 @@ function checkForLoss() {
   if (remainingLetters > 0 && incorrectGuesses === maxEasyGuesses) {
     wonGame = false;
     //   - hangman will have all parts
+    drawCanvas();
     //   - display correct letters in the puzzle as the answer
 
     // disable the buttons, inform the player that they lost, and updatePlayerStats
@@ -121,17 +175,38 @@ function updatePlayerStats() {
     currentPlayer.totalPoints += 23; ////////THIS WILL PROBABLY CHANGE///////////////
     currentPlayer.gamesWon ++;
   }
-  calculatePercentage(currentPlayer);
-  numberWon = currentPlayer.percentWon;
+  var numberWon = Math.round((currentPlayer.gamesWon / currentPlayer.gamesPlayed) * 100);
+  currentPlayer.percentWon = numberWon;
   currentPlayer.percentDisplay = numberWon + '%';
   clearRow();
+  sortPlayers();
+  setRank();
   renderPlayerStatsRow(currentPlayer);
   // stringify the updated array and set it back to local storage
   storeLocal();
 };
 
-function calucatePecentage(currentPlayer) {
-  numberWon = Math.round((currentPlayer.gamesWon / currentPlayer.gamesPlayed) * 100);
+function sortPlayers(){
+  parsedlclStrgObjArr.sort(function(a, b) {
+    if (a.totalPoints === b.totalPoints) {
+      return (b.percentWon) - (a.percentWon);
+    } else {
+      return (b.totalPoints) - (a.totalPoints);
+    }
+  });
+};
+
+function setRank(){
+  clearRow();
+  var rank = 0;
+  var playersLength = parsedlclStrgObjArr.length;
+  if (playersLength > 5) {
+    playersLength = 5;
+  }
+  for (var i = 0; i < playersLength; i++) {
+    rank = rank + 1;
+    parsedlclStrgObjArr[i].ranking = rank;
+  }
 };
 
 function storeLocal() {
