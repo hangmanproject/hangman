@@ -44,6 +44,7 @@ function toHtml () {
 }
 //I wrote the functions to calculate the percent won and the total points. I made an ordered list with an h2 header that states the player name. The first list item is the percent won and the second list item is the total points.
 
+//HANGMAN DRAWING DOWN BELOW:
 function drawLine(ctx , from, to) {
   ctx.beginPath();
   ctx.moveTo(from[0], from[1]);
@@ -51,60 +52,48 @@ function drawLine(ctx , from, to) {
   ctx.stroke();
 }
 drawLine(ctx, [0,0], [100,50]);
-//Draw the canvas
 function drawCanvas() {
-//var c = canvas.getContext('2d');
-//reset the canvas and set the basic styles
-  canvas.width = canvas.width;
-  ctx.lineWidth = 10;
-  ctx.strokeStyle = 'black';
-  ctx.fillStyle = 'black';
-//draw the ground
-  drawLine(ctx, [20,190], [180,190]);
-//start building the gallows if there's been a bad guess
-  if (incorrectGuesses > 0) {
-//create the upright
+  canvas.width = canvas.width; //resetting the canvas everytime
+  ctx.lineWidth = 10; //setting the basic styles
+  ctx.strokeStyle = 'black'; //setting the basic styles
+  ctx.fillStyle = 'black'; //setting the basic styles
+  drawLine(ctx, [20,190], [180,190]); //draws the ground
+  if (incorrectGuesses >= 1) { //creates the upright gallows:
     ctx.strokeStyle = 'black';
     drawLine(ctx, [30,185], [30,10]);
   }
-  if (incorrectGuesses > 1) {
-//create the arm gallows
+  if (incorrectGuesses >= 1) { //creates the arm gallows:
     ctx.lineTo(150,10);
     ctx.stroke();
   }
-  if (incorrectGuesses > 2) {
+  if (incorrectGuesses >= 2) { //creates the noose:
     ctx.strokeStyle = 'black';
     ctx.lineWidth = 3;
-//draw rope
     drawLine(ctx, [145,15], [145,30]);
-//draw head
-    ctx.beginPath();
+
+    ctx.beginPath(); //creates the head:
     ctx.moveTo(160, 45);
     ctx.arc(145, 45, 15, 0, (Math.PI / 180) * 360);
     ctx.stroke();
   }
-  if (incorrectGuesses > 3) {
-//draw body
+  if (incorrectGuesses >= 3) { //creates the body:
     drawLine(ctx, [145,60], [145,130]);
   }
-  if (incorrectGuesses > 4) {
-//draw left arm
+  if (incorrectGuesses >= 4) { //creates the left arm:
     drawLine(ctx, [145,80], [110,90]);
   }
-  if (incorrectGuesses > 5) {
-//draw right arm
+  if (incorrectGuesses >= 5) { //creates the right arm:
     drawLine(ctx, [145,80], [180,90]);
   }
-  if (incorrectGuesses > 6) {
-//draw left leg
+  if (incorrectGuesses >= 6) { //creates the left leg:
     drawLine(ctx, [145,130], [130,170]);
   }
-  if (incorrectGuesses > 7) {
-//draw right leg and end game
+  if (incorrectGuesses >= 7) { //creates the right leg and ends game
     drawLine(ctx, [145,130], [160,170]);
   }
 }
-//this is the code that makes the hangman image. The if statement is creating the added limb to the image each time they use up one of the guesses or 'lives'.
+//HANGMAN DRAWING UP ABOVE
+
 var playerForm = document.getElementById('form');
 //var welcomeMessage = document.getElementById('welcome_message');
 // - bank of letter options that can be clicked
@@ -217,7 +206,7 @@ var playerAnswerArr = [];
 // Global variables
 var playerAnswerArr = []; // blank spaces puzzle
 var incorrectGuesses = 0;
-var maxEasyGuesses = 9; // will correspond with number of easy difficulty body parts
+var maxEasyGuesses = 7; // will correspond with number of easy difficulty body parts
 var easyWords = ['four', 'phone', 'mouse', 'bottle', 'notebook']; // subject to change
 var gameWord; // word chosen from word array
 var remainingLetters; // remaining letters left to guess in the gameWord
@@ -292,6 +281,7 @@ function checkForLoss() {
   if (remainingLetters > 0 && incorrectGuesses === maxEasyGuesses) {
     wonGame = false;
     //   - hangman will have all parts
+    drawCanvas();
     //   - display correct letters in the puzzle as the answer
 
     // disable the buttons, inform the player that they lost, and updatePlayerStats
