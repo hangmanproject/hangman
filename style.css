@@ -232,12 +232,17 @@ main h2 {
 }
 
 #display_player_array {
-  font-family: Raleway, monospace;
-  font-size: 50px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 50pt;
+}
+
+#display_guesses_remaining {
+  font-family: 'Raleway', sans-serif;
+  font-size: 14pt;
 }
 
 .letter_button {
-  font-family: Raleway;
+  font-family: 'Raleway', sans-serif;
   font-size: 14pt;
   color: black;
   background-color: rgba(255, 255, 255, .7);
@@ -249,7 +254,16 @@ main h2 {
 }
 
 #end_of_game_msg {
-  font-family: Raleway;
-  font-size: 35px;
+  font-family: 'Aref ruqaa', serif;
+  font-size: 36pt;
   background-color: rgba(255, 255, 255, .6);
+}
+
+#play_again_btn {
+  font-family: 'Raleway', sans-serif;
+  font-size: 28pt;
+  border: none;
+  /*background-color: rgba(255, 255, 255, .7);*/
+  border-radius: 10px;
+  text-align: center;
 }

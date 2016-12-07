@@ -106,7 +106,7 @@
 // Global variables
 var playerAnswerArr = []; // blank spaces puzzle
 var incorrectGuesses = 0;
-var maxEasyGuesses = 5; // will correspond with number of easy difficulty body parts
+var maxEasyGuesses = 7; // will correspond with number of easy difficulty body parts
 var easyWords = ['four', 'phone', 'mouse', 'bottle', 'notebook']; // subject to change
 var gameWord; // word chosen from word array
 var remainingLetters; // remaining letters left to guess in the gameWord
