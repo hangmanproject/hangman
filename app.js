@@ -117,8 +117,28 @@ var remainingLetters; // remaining letters left to guess in the gameWord
 var wonGame = false; // used in checkForWin/Loss and updatePlayerStats
 var letterButton = document.getElementById('letter_buttons');
 letterButton.addEventListener('click', handleClick); // listens for a button click
+var display = document.getElementById('display_player_array');
+var playAgainButton = document.getElementById('play_again_btn');
+playAgainButton.addEventListener('click', handlePlayAgain);
 var endMessage = document.getElementById('end_of_game_msg');
 
+function handlePlayAgain(event) {
+  //event.preventDefault();
+  //display.target.display_player_array.value = '';
+  //display.textContent = '';
+  //playAgainButton.onclick = clearPlayerArray;
+  //clearPlayerArray();
+  runGame();
+
+  function clearPlayerArray() {
+    console.log('var display', display);
+    // remove the child node
+    display.textContent = '';
+    // append the child
+    console.log('display.textContent: ', display.textContent);
+    playerAnswerArr = [];//display.innerHTML = '';
+  }
+}
 // - generate a hanging man
 // _______ADDRESS______________________
 
@@ -230,11 +250,12 @@ function generatePlayerAnswerArray (gameWord) {
 
 // display the playerAnswerArr in html
 function displayPlayerArray(playerAnswerArr) {
-  var display = document.getElementById('display_player_array');
   display.textContent = playerAnswerArr.join(' ');
 }
 
 function runGame(){
+  playerAnswerArr = [];
+  letterButton.addEventListener('click', handleClick); // listens for a button click
   // assign the gameWord
   gameWord = pickWord(easyWords);
   // set the remainingLetters left to guess
