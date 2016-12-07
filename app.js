@@ -58,7 +58,6 @@ var c = canvas.getContext('2d');
 canvas.width = canvas.width;
 c.lineWidth = 10;
 c.strokeStyle = 'black';
-c.font = 'bold 24px Optimer, Arial, Helvetica, sans-serif';
 c.fillStyle = 'black';
 //draw the ground
 drawLine(c, [20,190], [180,190]);
@@ -172,16 +171,16 @@ var playerAnswerArr = [];
 // //draw the ground
 // drawLine(c, [20,190], [180,190]);
 // //start building the gallows if there's been a bad guess
-// //if (badGuesses > 0) {
+// //if (incorrectGuesses > 0) {
 //   //create the upright
 //   c.strokeStyle = '#A52A2A';
 //   drawLine(c, [30,185], [30,10]);
-//   //if (badGuesses > 1) {
+//   //if (incorrectGuesses > 1) {
 //     //create the arm gallows
 //     c.lineTo(150,10);
 //     c.stroke();
 //   //}
-//   //if (badGuesses > 2) {
+//   //if (incorrectGuesses > 2) {
 //     c.strokeStyle = 'black';
 //     c.lineWidth = 3;
 //     //draw rope
@@ -192,32 +191,29 @@ var playerAnswerArr = [];
 //     c.arc(145, 45, 15, 0, (Math.PI/180)*360);
 //     c.stroke();
 //     //}
-//   //if (badGuesses > 3) {
+//   //if (incorrectGuesses > 3) {
 //     //draw body
 //     drawLine(c, [145,60], [145,130]);
 //   //}
-//   //if (badGuesses > 4) {
+//   //if (incorrectGuesses > 4) {
 //     //draw left arm
 //     drawLine(c, [145,80], [110,90]);
 //   //}
-//   //if (badGuesses > 5) {
+//   //if (incorrectGuesses > 5) {
 //     //draw right arm
 //     drawLine(c, [145,80], [180,90]);
 //   //}
-//   //if  (badGuesses > 6) {
+//   //if  (incorrectGuesses > 6) {
 //     //draw left leg
 //     drawLine(c, [145,130], [130,170]);
 //   //}
-//   //if (badGuesses > 7) {
+//   //if (incorrectGuesses > 7) {
 //     //draw right leg and end game
 //     drawLine(c, [145,130], [160,170]);
 // //I wrote the functions to calculate the percent won and the total points. I made an ordered list with an h2 header that states the player name. The first list item is the percent won and the second list item is the total points.
 // var playerForm = document.getElementById('form');
 // //var welcomeMessage = document.getElementById('welcome_message');
 // //***CLAIRE'S CODE***CLAIRE'S CODE***CLAIRE'S CODE***CLAIRE'S CODE***CLAIRE'S CODE***CLAIRE'S CODE
-
-
-
 
 // Global variables
 var playerAnswerArr = []; // blank spaces puzzle
