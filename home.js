@@ -70,6 +70,12 @@ function writeWelcomeMessage(message) {
   player_input.appendChild(welcomeMessage);
 };
 
+// function clearForm() {
+//   if(playerForm) {
+//     document.player_form.reset();
+//   }
+// };
+
 function sortPlayers(){
   players.sort(function(a, b) {
     return (b.totalPoints) - (a.totalPoints);
