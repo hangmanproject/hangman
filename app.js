@@ -1,108 +1,57 @@
 'use strict';
 
-// ///***CLAIRE'S CODE***CLAIRE'S CODE***CLAIRE'S CODE***CLAIRE'S CODE***CLAIRE'S CODE
-// function PlayerInfo(name) {
-//   this.playerName = name;
-//   this.gamesWon = 0;
-//   this.gamesPlayed = 0;
-//   this.percentWon = 0;
-//   this.totalPoints = 0;
-// };
-// Top player stats to display: ranking, player name, total points, and show top 5 players in list in order of total points.
-// function calculateTotalPoints() {
-//   var total = (this.gamesWon * 5);
-//   this.totalPoints = total;
-// }
-// function toHtml () {
-//   this.calculatePercentWon();
-//   var elMain = document.getElementById('player-stats');
-//
-//   var elSection = document.createElement('section');
-//   elMain.appendChild(elSection);
-//
-//   var elH2 = document.createElement('h2');
-//   elH2.textContent = this.playerName;
-//   elSection.appendChild(elH2);
-//
-//   var elOl = document.createElement('ol');
-//   elSection.appendChild(elOl);
-//
-//   var elLi = document.createElement('li');
-//   elLi.textContent = this.percentWon;
-//   elOl.appendChild(elLi);
-//
-//   elLi = document.createElement('li');
-//   elLi.textContent = this.totalPoints;
-//   elOl.appendChild(elLi);
-// }
-// var canvas = document.getElementById('stage'),
-//   c = canvas.getContext('2d');
-//
-// function drawLine(context , from, to) {
-//   context.beingPath();
-//   context.moveTo(from[0], from[1]);
-//   context.lineTo(to[0], to[1]);
-//   context.stroke();
-//   drawLine(c, [0,0], [100,50]);
-// }
-// //Draw the canvas function drawCanvas()
-// var c = canvas.getContext('2d');
-// //reset the canvas and set the basic styles
-// canvas.width = canvas.width;
-// c.lineWidth = 10;
-// c.strokeStyle = 'green';
-// c.font = 'bold 24px Optimer, Arial, Helvetica, sans-serif';
-// c.fillStyle = 'red';
-// //draw the ground
-// drawLine(c, [20,190], [180,190]);
-// //start building the gallows if there's been a bad guess
-// //if (badGuesses > 0) {
-//   //create the upright
-//   c.strokeStyle = '#A52A2A';
-//   drawLine(c, [30,185], [30,10]);
-//   //if (badGuesses > 1) {
-//     //create the arm gallows
-//     c.lineTo(150,10);
-//     c.stroke();
-//   //}
-//   //if (badGuesses > 2) {
-//     c.strokeStyle = 'black';
-//     c.lineWidth = 3;
-//     //draw rope
-//     drawLine(c, [145,15], [145,30]);
-//     //draw head
-//     c.beginPath();
-//     c.moveTo(160, 45);
-//     c.arc(145, 45, 15, 0, (Math.PI/180)*360);
-//     c.stroke();
-//     //}
-//   //if (badGuesses > 3) {
-//     //draw body
-//     drawLine(c, [145,60], [145,130]);
-//   //}
-//   //if (badGuesses > 4) {
-//     //draw left arm
-//     drawLine(c, [145,80], [110,90]);
-//   //}
-//   //if (badGuesses > 5) {
-//     //draw right arm
-//     drawLine(c, [145,80], [180,90]);
-//   //}
-//   //if  (badGuesses > 6) {
-//     //draw left leg
-//     drawLine(c, [145,130], [130,170]);
-//   //}
-//   //if (badGuesses > 7) {
-//     //draw right leg and end game
-//     drawLine(c, [145,130], [160,170]);
-// //I wrote the functions to calculate the percent won and the total points. I made an ordered list with an h2 header that states the player name. The first list item is the percent won and the second list item is the total points.
-// var playerForm = document.getElementById('form');
-// //var welcomeMessage = document.getElementById('welcome_message');
-// //***CLAIRE'S CODE***CLAIRE'S CODE***CLAIRE'S CODE***CLAIRE'S CODE***CLAIRE'S CODE***CLAIRE'S CODE
+var canvas = document.getElementById('stage'),
+  ctx = canvas.getContext('2d');
 
+//HANGMAN DRAWING DOWN BELOW:
+function drawLine(ctx , from, to) {
+  ctx.beginPath();
+  ctx.moveTo(from[0], from[1]);
+  ctx.lineTo(to[0], to[1]);
+  ctx.stroke();
+}
+drawLine(ctx, [0,0], [100,50]);
+function drawCanvas() {
+  canvas.width = canvas.width; //resetting the canvas everytime
+  ctx.lineWidth = 10; //setting the basic styles
+  ctx.strokeStyle = 'black'; //setting the basic styles
+  ctx.fillStyle = 'black'; //setting the basic styles
+  drawLine(ctx, [20,190], [180,190]); //draws the ground
+  if (incorrectGuesses >= 1) { //creates the upright gallows:
+    ctx.strokeStyle = 'black';
+    drawLine(ctx, [30,185], [30,10]);
+  }
+  if (incorrectGuesses >= 1) { //creates the arm gallows:
+    ctx.lineTo(150,10);
+    ctx.stroke();
+  }
+  if (incorrectGuesses >= 2) { //creates the noose:
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 3;
+    drawLine(ctx, [145,15], [145,30]);
 
-
-
+    ctx.beginPath(); //creates the head:
+    ctx.moveTo(160, 45);
+    ctx.arc(145, 45, 15, 0, (Math.PI / 180) * 360);
+    ctx.stroke();
+  }
+  if (incorrectGuesses >= 3) { //creates the body:
+    drawLine(ctx, [145,60], [145,130]);
+  }
+  if (incorrectGuesses >= 4) { //creates the left arm:
+    drawLine(ctx, [145,80], [110,90]);
+  }
+  if (incorrectGuesses >= 5) { //creates the right arm:
+    drawLine(ctx, [145,80], [180,90]);
+  }
+  if (incorrectGuesses >= 6) { //creates the left leg:
+    drawLine(ctx, [145,130], [130,170]);
+  }
+  if (incorrectGuesses >= 7) { //creates the right leg and ends game
+    drawLine(ctx, [145,130], [160,170]);
+  }
+}
+//HANGMAN DRAWING UP ABOVE
 // Global variables
 var playerAnswerArr = []; // blank spaces puzzle
 var incorrectGuesses = 0;
@@ -170,6 +119,7 @@ function handleClick(event) {
     event.target.disabled = true;
     checkForLoss();
   }
+  drawCanvas();
 }
 
 function checkForWin() {
@@ -188,6 +138,7 @@ function checkForLoss() {
   if (remainingLetters > 0 && incorrectGuesses === maxEasyGuesses) {
     wonGame = false;
     //   - hangman will have all parts
+    drawCanvas();
     //   - display correct letters in the puzzle as the answer
 
     // disable the buttons, inform the player that they lost, and updatePlayerStats
