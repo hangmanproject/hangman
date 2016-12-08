@@ -18,19 +18,21 @@ var displayGuessesRemaining = document.getElementById('display_guesses_remaining
 var playAgainButton = document.getElementById('play_again_btn');
 playAgainButton.addEventListener('click', handlePlayAgain);
 var endMessage = document.getElementById('end_of_game_msg');
-var previousWordArr = [];
+//var previousWordArr = [];
 //JSON VARIABLES
 var localStorageNameArr = localStorage.getItem('allPlayerNames');
 var localStorageObjArr  = localStorage.getItem('players');
-var localStoragePrevWordArr = localStorage.getItem('previousWordArr');
+//var localStoragePrevWordArr = localStorage.getItem('previousWordArr');
 var parsedLclStrgNameArr = JSON.parse(localStorageNameArr);   // get the name array from local storage and parse from JSON to js
 var parsedlclStrgObjArr  = JSON.parse(localStorageObjArr);   // get the player object array from local storage and parse from JSON to js
-var parsedlclStrgPrevWordArr = JSON.parse(localStoragePrevWordArr);
 var currentPlayer = parsedlclStrgObjArr[0];
+//var previousPlayer = localStorage.getItem('')
 
 retrieveLocal();
+//esetPreviousWords();
 findCurrentPlayer();
 renderPlayerStatsRow(currentPlayer);
+runGame();
 
 // - generate a hanging man
 // _______ADDRESS______________________
@@ -44,17 +46,23 @@ function updateGuessesRemaining() {
 
 //retrieve local storage
 function retrieveLocal() {
-  if (localStorageNameArr) {
+  if (localStorageObjArr) {
     parsedLclStrgNameArr = JSON.parse(localStorageNameArr);
     parsedlclStrgObjArr = JSON.parse(localStorageObjArr);
   }
 };
 
-function retrievePrevWordArr() {
-  if (localStoragePrevWordArr) {
-      parsedlclStrgPrevWordArr = JSON.parse(localStoragePrevWordArr);
-  }
-};
+// function resetPreviousWords() {
+//   console.log(localStoragePrevWordArr);
+//   if (currentPlayer !== previousPlayer) {
+//     //previousWordArr = JSON.parse(localStoragePrevWordArr);
+//     previousWordArr = [];
+//     localStorage.setItem('previousWordArr', JSON.stringify(previousWordArr));
+//     console.log('JSON' + typeof(JSON.stringify(previousWordArr)));
+//     console.log(previousWordArr);
+//   }
+// };
+
 // find current player
 function findCurrentPlayer() {
   var playerToCheck = parsedLclStrgNameArr.pop(); // pop off the last element (the current logged in user) and store it on a variable
@@ -181,25 +189,37 @@ function storeLocal() {
   localStorage.setItem('players', playersJSON);
 };
 
-function storePrevWordArr() {
-  var previousWordArrJSON = JSON.stringify(parsedlclStrgPrevWordArr);
-  localStorage.setItem('previousWordArr', previousWordArrJSON);
-}
+// function storePrevWordArr() {
+//   var previousWordArrJSON = JSON.stringify(previousWordArr);
+//   localStorage.setItem('previousWordArr', previousWordArrJSON);
+// }
+
+// function retrievePrevWordArr() {
+//   if (localStoragePrevWordArr) {
+//     previousWordArr = JSON.parse(localStoragePrevWordArr);
+//   }
+// };
 
 // pass in a word array to select a random word from it to assign to gameWord
 function pickWord (wordArr) {
-  retrievePrevWordArr();
+  //retrievePrevWordArr();
   var randomNumber = generateRandomNumber(wordArr);
   gameWord = wordArr[randomNumber];
-  var wordIndexOf = gameWord.indexOf(parsedlclStrgPrevWordArr);
-  while (wordIndexOf !== -1) {
-    randomNumber = generateRandomNumber(wordArr);
-  }
-  gameWord = wordArr[randomNumber];
-  parsedlclStrgPrevWordArr.push(gameWord);
-  storePrevWordArr();
+  // console.log(previousWordArr);
+  // if (previousWordArr.length === 0) {
+  //   previousWordArr.push(gameWord);
+  // } else {
+  //   while (gameWord.indexOf(previousWordArr) !== -1) {
+  //     randomNumber = generateRandomNumber(wordArr);
+  //     gameWord = wordArr[randomNumber];
+  //   }
+  //   previousWordArr.push(gameWord);
+  // }
+  // storePrevWordArr();
   return gameWord;
 };
+
+
 
 function generateRandomNumber(arr) {
   return Math.floor(Math.random() * arr.length);
@@ -232,7 +252,7 @@ function runGame(){
 }
 
 //*****EXECUTE CODE*******************EXECUTE CODE**********************
-runGame();
+
 
 
 function renderPlayerStatsRow(currentPlayer) {
