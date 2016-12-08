@@ -80,7 +80,6 @@ function handlePlayAgain(event) {
     window.scrollTo(0, 0);
   };
 }
-
 // handles the event of a letter button click
 function handleClick(event) {
   event.preventDefault(); // prevent page refresh
