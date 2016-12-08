@@ -234,12 +234,17 @@ main h2 {
 }
 
 #display_player_array {
-  font-family: Raleway, monospace;
-  font-size: 50px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 50pt;
+}
+
+#display_guesses_remaining {
+  font-family: 'Raleway', sans-serif;
+  font-size: 14pt;
 }
 
 .letter_button {
-  font-family: Raleway;
+  font-family: 'Raleway', sans-serif;
   font-size: 14pt;
   color: black;
   background-color: rgba(255, 255, 255, .7);
@@ -251,7 +256,41 @@ main h2 {
 }
 
 #end_of_game_msg {
-  font-family: Raleway;
-  font-size: 35px;
+  font-family: 'Aref ruqaa', serif;
+  font-size: 36pt;
   background-color: rgba(255, 255, 255, .6);
+}
+
+.game_button {
+  font-family: 'Raleway', sans-serif;
+  font-size: 28pt;
+  border: none;
+  width: 195px;
+  height: 50px;
+  padding: 0px;
+  /*background-color: rgba(255, 255, 255, .7);*/
+  border-radius: 10px;
+  text-align: center;
+}
+
+#instruction_wrapper {
+  width: 195px;
+  height: 50px;
+}
+
+#instruction_wrapper .instruction_text {
+  visibility:hidden;
+}
+
+#instruction_wrapper .game_button:hover + .instruction_text {
+  visibility: visible;
+}
+
+.instruction_text {
+  font-family: 'Raleway', sans-serif;
+  font-size: 14pt;
+  background-color: rgba(255, 255, 255, .6);
+  border-radius: 10px;
+  padding: 10px;
+  margin: 0;
 }
