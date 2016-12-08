@@ -14,6 +14,7 @@ function PlayerInfo(name) {
   this.percentDisplay = 0;
   this.totalPoints = 0;
   this.ranking = 0;
+  this.previousWords = [];
 };
 
 retrieveLocal();
