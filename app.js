@@ -64,6 +64,7 @@ var wonGame = false; // used in checkForWin/Loss and updatePlayerStats
 var letterButton = document.getElementById('letter_buttons');
 letterButton.addEventListener('click', handleClick); // listens for a button click
 var display = document.getElementById('display_player_array');
+var displayGuessesRemaining = document.getElementById('display_guesses_remaining');
 var playAgainButton = document.getElementById('play_again_btn');
 playAgainButton.addEventListener('click', handlePlayAgain);
 var endMessage = document.getElementById('end_of_game_msg');
@@ -82,6 +83,12 @@ renderPlayerStatsRow(currentPlayer);
 // _______ADDRESS______________________
 
 // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS //
+
+function updateGuessesRemaining() {
+  var guessesRemaining = maxEasyGuesses - incorrectGuesses;
+  displayGuessesRemaining.textContent = 'Remaining guesses: ' + guessesRemaining;
+}
+
 //retrieve local storage
 function retrieveLocal() {
   if (localStorageNameArr) {
@@ -122,6 +129,7 @@ function handleClick(event) {
         playerAnswerArr[i] = gameWord[i]; // replace the blank index with the matching letter
 
         displayPlayerArray(playerAnswerArr); // update the display for the player
+        updateGuessesRemaining();
         remainingLetters--;
         // disable the button to prevent the player from selecting it again
         event.target.disabled = true;
@@ -135,6 +143,7 @@ function handleClick(event) {
     //       - one body part gets added to the hangman
 
     incorrectGuesses += 1; // incorrectGuesses increases by 1
+    updateGuessesRemaining();
     // disable the button to prevent the player from selecting it again
     event.target.disabled = true;
     checkForLoss();
@@ -247,6 +256,7 @@ function runGame(){
   // generate a playerAnswerArr blank puzzle that is the length of the gameWord and display it
   generatePlayerAnswerArray(gameWord);
   displayPlayerArray(playerAnswerArr);
+  updateGuessesRemaining();
 }
 
 //*****EXECUTE CODE*******************EXECUTE CODE**********************
