@@ -11,7 +11,7 @@ function PlayerInfo(name) {
   this.gamesWon = 0;
   this.gamesPlayed = 0;
   this.percentWon = 0;
-  this.percentDisplay = '';
+  this.percentDisplay = 0;
   this.totalPoints = 0;
   this.ranking = 0;
 };
@@ -113,7 +113,6 @@ function renderTable(){
   for (var i = 0; i < playersLength; i++) {
     rank = rank + 1;
     players[i].ranking = rank;
-    console.log(players[i]);
     renderTopPlayerRow(players[i]);
   }
 };
