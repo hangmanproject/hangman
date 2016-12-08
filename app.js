@@ -8,6 +8,7 @@ function drawLine(ctx , from, to) {
   ctx.beginPath();
   ctx.moveTo(from[0], from[1]);
   ctx.lineTo(to[0], to[1]);
+  ctx.scale(2,2);
   ctx.stroke();
 }
 drawLine(ctx, [0,0], [100,50]);
