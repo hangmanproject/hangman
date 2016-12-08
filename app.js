@@ -1,63 +1,13 @@
 'use strict';
 
-var canvas = document.getElementById('stage'),
-  ctx = canvas.getContext('2d');
-
-//HANGMAN DRAWING DOWN BELOW:
-function drawLine(ctx , from, to) {
-  ctx.beginPath();
-  ctx.moveTo(from[0], from[1]);
-  ctx.lineTo(to[0], to[1]);
-  ctx.stroke();
-}
-drawLine(ctx, [0,0], [100,50]);
-function drawCanvas() {
-  canvas.width = canvas.width; //resetting the canvas everytime
-  ctx.lineWidth = 10; //setting the basic styles
-  ctx.strokeStyle = 'black'; //setting the basic styles
-  ctx.fillStyle = 'black'; //setting the basic styles
-  drawLine(ctx, [20,190], [180,190]); //draws the ground
-  if (incorrectGuesses >= 1) { //creates the upright gallows:
-    ctx.strokeStyle = 'black';
-    drawLine(ctx, [30,185], [30,10]);
-  }
-  if (incorrectGuesses >= 1) { //creates the arm gallows:
-    ctx.lineTo(150,10);
-    ctx.stroke();
-  }
-  if (incorrectGuesses >= 2) { //creates the noose:
-    ctx.strokeStyle = 'black';
-    ctx.lineWidth = 3;
-    drawLine(ctx, [145,15], [145,30]);
-
-    ctx.beginPath(); //creates the head:
-    ctx.moveTo(160, 45);
-    ctx.arc(145, 45, 15, 0, (Math.PI / 180) * 360);
-    ctx.stroke();
-  }
-  if (incorrectGuesses >= 3) { //creates the body:
-    drawLine(ctx, [145,60], [145,130]);
-  }
-  if (incorrectGuesses >= 4) { //creates the left arm:
-    drawLine(ctx, [145,80], [110,90]);
-  }
-  if (incorrectGuesses >= 5) { //creates the right arm:
-    drawLine(ctx, [145,80], [180,90]);
-  }
-  if (incorrectGuesses >= 6) { //creates the left leg:
-    drawLine(ctx, [145,130], [130,170]);
-  }
-  if (incorrectGuesses >= 7) { //creates the right leg and ends game
-    drawLine(ctx, [145,130], [160,170]);
-  }
-}
 //HANGMAN DRAWING UP ABOVE
 
 // Global variables
 var playerAnswerArr = []; // blank spaces puzzle
 var incorrectGuesses = 0;
 var maxEasyGuesses = 7; // will correspond with number of easy difficulty body parts
-var easyWords = ['four', 'phone', 'mouse', 'bottle', 'notebook']; // subject to change
+var easyWords = ['four', 'phone', 'mouse', 'bottle', 'notebook', 'canteen', 'sliver', 'shampoo', 'errand', 'beekeeper']; // subject to change
+//
 var gameWord; // word chosen from word array
 var remainingLetters; // remaining letters left to guess in the gameWord
 var wonGame = false; // used in checkForWin/Loss and updatePlayerStats
@@ -67,11 +17,14 @@ var display = document.getElementById('display_player_array');
 var playAgainButton = document.getElementById('play_again_btn');
 playAgainButton.addEventListener('click', handlePlayAgain);
 var endMessage = document.getElementById('end_of_game_msg');
+var previousWordArr = [];
 //JSON VARIABLES
 var localStorageNameArr = localStorage.getItem('allPlayerNames');
 var localStorageObjArr  = localStorage.getItem('players');
+var localStoragePrevWordArr = localStorage.getItem('previousWordArr');
 var parsedLclStrgNameArr = JSON.parse(localStorageNameArr);   // get the name array from local storage and parse from JSON to js
 var parsedlclStrgObjArr  = JSON.parse(localStorageObjArr);   // get the player object array from local storage and parse from JSON to js
+var parsedlclStrgPrevWordArr = JSON.parse(localStoragePrevWordArr);
 var currentPlayer = parsedlclStrgObjArr[0];
 
 retrieveLocal();
@@ -90,6 +43,11 @@ function retrieveLocal() {
   }
 };
 
+function retrievePrevWordArr() {
+  if (localStoragePrevWordArr) {
+      parsedlclStrgPrevWordArr = JSON.parse(localStoragePrevWordArr);
+  }
+};
 // find current player
 function findCurrentPlayer() {
   var playerToCheck = parsedLclStrgNameArr.pop(); // pop off the last element (the current logged in user) and store it on a variable
@@ -214,15 +172,29 @@ function storeLocal() {
   localStorage.setItem('players', playersJSON);
 };
 
+function storePrevWordArr() {
+  var previousWordArrJSON = JSON.stringify(parsedlclStrgPrevWordArr);
+  localStorage.setItem('previousWordArr', previousWordArrJSON);
+}
+
 // pass in a word array to select a random word from it to assign to gameWord
 function pickWord (wordArr) {
-  gameWord = wordArr[generateRandomNumber(wordArr)];
-  return gameWord;
-
-  function generateRandomNumber(arr) {
-    return Math.floor(Math.random() * arr.length);
+  retrievePrevWordArr();
+  var randomNumber = generateRandomNumber(wordArr);
+  gameWord = wordArr[randomNumber];
+  var wordIndexOf = gameWord.indexOf(parsedlclStrgPrevWordArr);
+  while (wordIndexOf !== -1) {
+    randomNumber = generateRandomNumber(wordArr);
   }
-}
+  gameWord = wordArr[randomNumber];
+  parsedlclStrgPrevWordArr.push(gameWord);
+  storePrevWordArr();
+  return gameWord;
+};
+
+function generateRandomNumber(arr) {
+  return Math.floor(Math.random() * arr.length);
+};
 
 // initiate the playerAnswerArr to '_' characters, the length of the gameWord
 function generatePlayerAnswerArray (gameWord) {
@@ -251,8 +223,6 @@ function runGame(){
 
 //*****EXECUTE CODE*******************EXECUTE CODE**********************
 runGame();
-
-
 
 
 function renderPlayerStatsRow(currentPlayer) {
@@ -296,7 +266,64 @@ function clearRow() {
   playerStatsTable.textContent = '';
 }
 
-// function clearTable(){
-//   var playerStatsTable = document.getElementById('stats_table_body');
-//   playerStatsTable.textContent = '';
-// };
+//HANGMAN DRAWING DOWN BELOW:
+var canvas = document.getElementById('stage'),
+  ctx = canvas.getContext('2d');
+
+function drawLine(ctx , from, to) {
+  ctx.beginPath();
+  ctx.moveTo(from[0], from[1]);
+  ctx.lineTo(to[0], to[1]);
+  ctx.stroke();
+}
+
+canvas.width = canvas.width; //resetting the canvas everytime
+ctx.lineWidth = 10; //setting the basic styles
+ctx.strokeStyle = 'black'; //setting the basic styles
+ctx.fillStyle = 'black'; //setting the basic styles
+drawLine(ctx, [20,190], [180,190]); //draws the ground
+// ctx.strokeStyle = 'black';
+// drawLine(ctx, [30,185], [30,10]);
+// ctx.lineTo(150,10);
+// ctx.stroke();
+
+function drawCanvas() {
+  canvas.width = canvas.width; //resetting the canvas everytime
+  ctx.lineWidth = 10; //setting the basic styles
+  ctx.strokeStyle = 'black'; //setting the basic styles
+  ctx.fillStyle = 'black'; //setting the basic styles
+  drawLine(ctx, [20,190], [180,190]); //draws the ground
+  if (incorrectGuesses >= 1) { //creates the upright gallows:
+    ctx.strokeStyle = 'black';
+    drawLine(ctx, [30,185], [30,10]);
+  }
+  if (incorrectGuesses >= 1) { //creates the arm gallows:
+    ctx.lineTo(150,10);
+    ctx.stroke();
+  }
+  if (incorrectGuesses >= 2) { //creates the noose:
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 3;
+    drawLine(ctx, [145,15], [145,30]);
+
+    ctx.beginPath(); //creates the head:
+    ctx.moveTo(160, 45);
+    ctx.arc(145, 45, 15, 0, (Math.PI / 180) * 360);
+    ctx.stroke();
+  }
+  if (incorrectGuesses >= 3) { //creates the body:
+    drawLine(ctx, [145,60], [145,130]);
+  }
+  if (incorrectGuesses >= 4) { //creates the left arm:
+    drawLine(ctx, [145,80], [110,90]);
+  }
+  if (incorrectGuesses >= 5) { //creates the right arm:
+    drawLine(ctx, [145,80], [180,90]);
+  }
+  if (incorrectGuesses >= 6) { //creates the left leg:
+    drawLine(ctx, [145,130], [130,170]);
+  }
+  if (incorrectGuesses >= 7) { //creates the right leg and ends game
+    drawLine(ctx, [145,130], [160,170]);
+  }
+}
