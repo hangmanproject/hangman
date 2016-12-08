@@ -45,7 +45,17 @@
       </div>
       <div id="end_of_game_msg"></div>
 
-      <button id="play_again_btn" type="button" title="it works" name="play_again">Play again</button>
+      <button id="play_again_btn" class="game_button" type="button" name="play_again">play again</button>
+      <!-- <button type="button" name="button" title="no hover button">no hover button</button> -->
+
+      <div id="instruction_wrapper">
+        <button class="game_button hover" type="button" name="instructions">how to play</button>
+        <p class="instruction_text">
+          Click the letter buttons to try and guess the word. If you complete
+          the word before you run out of guesses you win! Continue playing
+          to improve your personal stats and overall ranking!
+        </p>
+      </div>​
 
     </main>
 
@@ -67,12 +77,7 @@
         </tbody>
       </table>
     </div>
-    <form class="nav_button" method="link" action="about.html">
-      <input class="page_button" type="submit" value="CURIOUS ABOUT THE DEVELOPERS?">
-    </form>
-    <form class="nav_button" method="link" action="home.html">
-      <input class="page_button" type="submit" value="BACK TO HOME">
-    </form>
+
     <script type="text/javascript" src="app.js"></script>
   </body>
 </html>
