@@ -52,6 +52,7 @@ function drawCanvas() {
   }
 }
 //HANGMAN DRAWING UP ABOVE
+
 // Global variables
 var playerAnswerArr = []; // blank spaces puzzle
 var incorrectGuesses = 0;
@@ -66,12 +67,39 @@ var display = document.getElementById('display_player_array');
 var playAgainButton = document.getElementById('play_again_btn');
 playAgainButton.addEventListener('click', handlePlayAgain);
 var endMessage = document.getElementById('end_of_game_msg');
+//JSON VARIABLES
+var localStorageNameArr = localStorage.getItem('allPlayerNames');
+var localStorageObjArr  = localStorage.getItem('players');
+var parsedLclStrgNameArr = JSON.parse(localStorageNameArr);   // get the name array from local storage and parse from JSON to js
+var parsedlclStrgObjArr  = JSON.parse(localStorageObjArr);   // get the player object array from local storage and parse from JSON to js
+var currentPlayer = parsedlclStrgObjArr[0];
 
+retrieveLocal();
+findCurrentPlayer();
+renderPlayerStatsRow(currentPlayer);
 
 // - generate a hanging man
 // _______ADDRESS______________________
 
 // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS //
+//retrieve local storage
+function retrieveLocal() {
+  if (localStorageNameArr) {
+    parsedLclStrgNameArr = JSON.parse(localStorageNameArr);
+    parsedlclStrgObjArr = JSON.parse(localStorageObjArr);
+  }
+};
+
+// find current player
+function findCurrentPlayer() {
+  var playerToCheck = parsedLclStrgNameArr.pop(); // pop off the last element (the current logged in user) and store it on a variable
+  for (var i = 0; i < parsedlclStrgObjArr.length; i++) {  // compare the playerToCheck to the player names in the object array
+    if (playerToCheck === parsedlclStrgObjArr[i].playerName) {// if there's a name match, update other object properties
+      currentPlayer = parsedlclStrgObjArr[i];
+    }
+  }
+};
+
 // handles the event when 'play again' button is clicked
 function handlePlayAgain(event) {
   // reloads the page and starts it at the top
@@ -142,38 +170,49 @@ function checkForLoss() {
 }
 
 function updatePlayerStats() {
-  var localStorageNameArr;
-  var localStorageObjArr;
-  var parsedLclStrgNameArr;
-  var parsedlclStrgObjArr;
-  // get the name array from local storage and parse from JSON to js
-  localStorageNameArr = localStorage.getItem('allPlayerNames');
-  parsedLclStrgNameArr = JSON.parse(localStorageNameArr);
-  // pop off the last element (the current logged in user) and store it on a variable
-  var playerToCheck = parsedLclStrgNameArr.pop();
-  // get the player object array from local storage and parse from JSON to js
-  localStorageObjArr = localStorage.getItem('players');
-  parsedlclStrgObjArr = JSON.parse(localStorageObjArr);
-  // compare the playerToCheck to the player names in the object array
-  for (var i = 0; i < parsedlclStrgObjArr.length; i++) {
-    // if there's a name match, update other object properties
-    if (playerToCheck === parsedlclStrgObjArr[i].playerName) {
-      var currentPlayer = parsedlclStrgObjArr[i];
-      parsedlclStrgObjArr[i].gamesPlayed ++;
-      if (wonGame === true) {
-        parsedlclStrgObjArr[i].totalPoints += 23; ////////THIS WILL PROBABLY CHANGE///////////////
-        parsedlclStrgObjArr[i].gamesWon ++;
-      }
-      var numberWon = Math.round((parsedlclStrgObjArr[i].gamesWon / parsedlclStrgObjArr[i].gamesPlayed) * 100);
-      numberWon = parsedlclStrgObjArr[i].percentWon;
-      parsedlclStrgObjArr[i].percentDisplay = numberWon + '%';
-      renderPlayerStatsRow(currentPlayer);
-    }
+  currentPlayer.gamesPlayed ++;
+  if (wonGame === true) {
+    currentPlayer.totalPoints += 23; ////////THIS WILL PROBABLY CHANGE///////////////
+    currentPlayer.gamesWon ++;
   }
+  var numberWon = Math.round((currentPlayer.gamesWon / currentPlayer.gamesPlayed) * 100);
+  currentPlayer.percentWon = numberWon;
+  currentPlayer.percentDisplay = numberWon + '%';
+  clearRow();
+  sortPlayers();
+  setRank();
+  renderPlayerStatsRow(currentPlayer);
   // stringify the updated array and set it back to local storage
+  storeLocal();
+};
+
+function sortPlayers(){
+  parsedlclStrgObjArr.sort(function(a, b) {
+    if (a.totalPoints === b.totalPoints) {
+      return (b.percentWon) - (a.percentWon);
+    } else {
+      return (b.totalPoints) - (a.totalPoints);
+    }
+  });
+};
+
+function setRank(){
+  clearRow();
+  var rank = 0;
+  var playersLength = parsedlclStrgObjArr.length;
+  if (playersLength > 5) {
+    playersLength = 5;
+  }
+  for (var i = 0; i < playersLength; i++) {
+    rank = rank + 1;
+    parsedlclStrgObjArr[i].ranking = rank;
+  }
+};
+
+function storeLocal() {
   var playersJSON = JSON.stringify(parsedlclStrgObjArr);
   localStorage.setItem('players', playersJSON);
-}
+};
 
 // pass in a word array to select a random word from it to assign to gameWord
 function pickWord (wordArr) {
@@ -213,17 +252,11 @@ function runGame(){
 //*****EXECUTE CODE*******************EXECUTE CODE**********************
 runGame();
 
-//Player stats
-// function renderTable(){
-//   clearTable();
-//   if (currentPlayer.ranking) {
-//     playersLength = 5;
-//   }
-//     renderPlayerStatsRow(currentPlayer);
-//   }
-// };
+
+
 
 function renderPlayerStatsRow(currentPlayer) {
+
   var playerStatsTable = document.getElementById('stats_table_body');
   var playerTableRow = document.createElement('tr');
   var rankingPlayer = document.createElement('td');
@@ -257,6 +290,12 @@ function renderPlayerStatsRow(currentPlayer) {
   }
   playerStatsTable.appendChild(playerTableRow);
 };
+
+function clearRow() {
+  var playerStatsTable = document.getElementById('stats_table_body');
+  playerStatsTable.textContent = '';
+}
+
 // function clearTable(){
 //   var playerStatsTable = document.getElementById('stats_table_body');
 //   playerStatsTable.textContent = '';
