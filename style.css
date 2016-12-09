@@ -137,7 +137,7 @@ h1 {
   margin: 0px auto 0 auto;
   padding: 10px 80px 60px 80px;
   position: relative;
-  bottom: 400px;
+  bottom: 645px;
 }
 
 table {
@@ -262,12 +262,12 @@ main h2 {
   position: relative;
   bottom: 350px;
   overflow: auto;
-  height: 550px;
+  height: 500px;
+
 /* overflow: auto and height: 820 currently keep the game_elements from becoming a scroll window*/
 }
 
 canvas {
-  outline: 1px solid red;
   width: 400px;
   float: left;
 }
@@ -302,14 +302,17 @@ canvas {
 
 #end_of_game_msg {
   font-family: 'Raleway', sans-serif;
-  font-size: 36pt;
+  font-size: 30pt;
   letter-spacing: 0.05em;
   text-align: center;
   text-shadow: -3px 3px 0px #D9D9D9;
   width: 560px;
-  float: right;
+  /*margin-bottom: 15px;*/
+  position: absolute;
+  right: 0px;
+  top: 290px;
   border-radius: 10px;
-  background-color: rgba(255, 255, 255, .6);
+  background-color: rgba(255, 255, 255, .9);
 }
 
 .game_button {
@@ -322,8 +325,6 @@ canvas {
   padding: 0px;
   border-radius: 10px;
   text-align: center;
-  /*float: left;*/
-  /*display: inline-block;*/
 }
 
 #play_again_btn {
@@ -356,4 +357,9 @@ canvas {
   border-radius: 10px;
   padding: 10px;
   margin: 0;
+}
+
+.game_nav {
+  position: relative;
+  bottom: 480px;
 }
