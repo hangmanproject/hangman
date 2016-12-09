@@ -4,8 +4,10 @@
 var playerAnswerArr = []; // blank spaces puzzle
 var incorrectGuesses = 0;
 var maxEasyGuesses = 7; // will correspond with number of easy difficulty body parts
-var easyWords = ['four', 'phone', 'mouse', 'bottle', 'notebook', 'canteen', 'sliver', 'shampoo', 'errand', 'beekeeper', 'honey', 'pepper', 'casino', 'eucalyptus']; // subject to change
-//
+var easyWords = ['four', 'phone', 'mouse', 'bottle', 'notebook',
+  'canteen', 'sliver', 'shampoo', 'errand', 'beekeeper',
+  'honey', 'pepper', 'casino', 'eucalyptus']; // subject to change
+
 var gameWord; // word chosen from word array
 var remainingLetters; // remaining letters left to guess in the gameWord
 var wonGame = false; // used in checkForWin/Loss and updatePlayerStats
@@ -14,7 +16,7 @@ letterButton.addEventListener('click', handleClick); // listens for a button cli
 var display = document.getElementById('display_player_array');
 var displayGuessesRemaining = document.getElementById('display_guesses_remaining');
 var playAgainButton = document.getElementById('play_again_btn');
-playAgainButton.addEventListener('click', handlePlayAgain);
+playAgainButton.addEventListener('click', handlePlayAgain); // responds to click on play again button
 var endMessage = document.getElementById('end_of_game_msg');
 //JSON VARIABLES
 var localStorageNameArr = localStorage.getItem('allPlayerNames');
@@ -27,14 +29,16 @@ var currentPlayer = parsedlclStrgObjArr[0];
 var canvas = document.getElementById('stage'), //these are global variables, please do not move them.
   ctx = canvas.getContext('2d'); //these are global variables, please do not move them.
 
+// EXECUTE // EXECUTE // EXECUTE // EXECUTE // EXECUTE // EXECUTE // EXECUTE // EXECUTE // EXECUTE
 retrieveLocal();
 findCurrentPlayer();
 resetPreviousWords();
 renderPlayerStatsRow(currentPlayer);
+writePlayerMessage();
 runGame();
 writePlayerMessage();
 // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS //
-
+// retrieve JSON player information from local storage and prepare it for js usage
 function retrieveLocal() {
   if (localStorageObjArr) {
     parsedLclStrgNameArr = JSON.parse(localStorageNameArr);
@@ -45,6 +49,7 @@ function retrieveLocal() {
   }
 };
 
+// find the current player profile from the local storage
 function findCurrentPlayer() {
   var playerToCheck = parsedLclStrgNameArr.pop(); // pop off the last element (the current logged in user) and store it on a variable
   for (var i = 0; i < parsedlclStrgObjArr.length; i++) {  // compare the playerToCheck to the player names in the object array
@@ -54,6 +59,7 @@ function findCurrentPlayer() {
   }
 };
 
+// allow new players to have play access to all words, previous players play new words
 function resetPreviousWords() {
   if (parsedPrevPlayerObj && currentPlayer.playerName !== parsedPrevPlayerObj.playerName) {
     currentPlayer.previousWords = [];
@@ -66,8 +72,15 @@ function writePlayerMessage() {
   message_top.appendChild(playerMessage);
 };
 
-function renderPlayerStatsRow(currentPlayer) {
+// acknowledge player on the game page above the game elements
+function writePlayerMessage() {
+  var playerMessage = document.getElementById('player_message');
+  playerMessage.textContent = (currentPlayer.playerName + ', the hangman\'s fate is in your hands.');
+  message_top.appendChild(playerMessage);
+};
 
+// render a table to display the player's current stats
+function renderPlayerStatsRow(currentPlayer) {
   var playerStatsTable = document.getElementById('stats_table_body');
   var playerTableRow = document.createElement('tr');
   var rankingPlayer = document.createElement('td');
@@ -102,10 +115,9 @@ function renderPlayerStatsRow(currentPlayer) {
   playerStatsTable.appendChild(playerTableRow);
 };
 
-function runGame(){
+// set up for the game
+function runGame() {
   playerAnswerArr = [];
-  // letterButton.addEventListener('click', handleClick); // listens for a button click
-  // letterButton.disabled = false;
   // assign the gameWord
   gameWord = pickWord(easyWords);
   // set the remainingLetters left to guess
@@ -116,6 +128,8 @@ function runGame(){
   updateGuessesRemaining();
 }
 
+// selects a random gameWord from the word array and
+// prevents words from being played multiple times by the same player
 function pickWord (wordArr) {
   var randomNumber = generateRandomNumber(wordArr);
   gameWord = wordArr[randomNumber];
@@ -140,22 +154,25 @@ function generateRandomNumber(arr) {
   return Math.floor(Math.random() * arr.length);
 };
 
-function generatePlayerAnswerArray (gameWord) { // initiate the playerAnswerArr to '_' characters, the length of the gameWord
+// initiate the playerAnswerArr to '_' characters, the length of the gameWord
+function generatePlayerAnswerArray (gameWord) {
   for (var i = 0; i < gameWord.length; i++) {
     playerAnswerArr.push('_');
   };
 }
 
-function displayPlayerArray(playerAnswerArr) { // display the playerAnswerArr in html
+// display the playerAnswerArr in html
+function displayPlayerArray(playerAnswerArr) {
   display.textContent = playerAnswerArr.join(' ');
 }
 
+// update and show the player how many guesses they have remaining
 function updateGuessesRemaining() {
   var guessesRemaining = maxEasyGuesses - incorrectGuesses;
   displayGuessesRemaining.textContent = 'Remaining guesses: ' + guessesRemaining;
 };
 
-// handles the event of a letter button click
+// game logic: handles the event of a letter button click
 function handleClick(event) {
   event.preventDefault(); // prevent page refresh
 
@@ -178,42 +195,49 @@ function handleClick(event) {
   } else if (gameWord.includes(event.target.value) === false) {
     // if user selects a invalid letter, nothing changes in the playerAnswerArr
     displayPlayerArray(playerAnswerArr);
-    //       - one body part gets added to the hangman
-    incorrectGuesses += 1; // incorrectGuesses increases by 1
+    incorrectGuesses += 1;
     updateGuessesRemaining();
     // disable the button to prevent the player from selecting it again
     event.target.disabled = true;
     checkForLoss();
   }
-  drawCanvas();
+  drawCanvas(); // draw the appropriate parts of the hangman
 }
 
 function checkForWin() {
   if (remainingLetters === 0) { // if the player has guessed all the letters
     wonGame = true;
-    // disable the buttons, display the solved gameWord, inform the player that they won, and updatePlayerStats
+    // disable the letter buttons, display the solved gameWord,
+    // inform the player that they won, change appearance of the play again button
+    // and updatePlayerStats
     letterButton.removeEventListener('click', handleClick);
     displayPlayerArray(playerAnswerArr);
     endMessage.textContent = 'Congrats! You won and saved the hangman!';
+    highlightPlayAgainBtn();
     updatePlayerStats();
-    //   - refresh page?
   }
 }
 
 function checkForLoss() {
   if (remainingLetters > 0 && incorrectGuesses === maxEasyGuesses) {
     wonGame = false;
-    //   - hangman will have all parts
-    drawCanvas();
-    //   - display correct letters in the puzzle as the answer
-    // disable the buttons, inform the player that they lost, and updatePlayerStats
+    drawCanvas(); // hangman will have all parts
+    // disable the buttons, inform the player that they lost,
+    // change appearance of the play again button and updatePlayerStats
     letterButton.removeEventListener('click', handleClick);
     endMessage.textContent = 'You failed to guess \'' + gameWord + '.\' A man has been hanged today. You lose.';
+    highlightPlayAgainBtn();
     updatePlayerStats();
-    //   - refresh page?
   }
 }
 
+// change text color and background-color of the play again button
+function highlightPlayAgainBtn() {
+  playAgainButton.style.color = 'white';
+  playAgainButton.style.backgroundColor = '#8c1717';
+}
+
+// updates, displays, and localStores the current player's stats
 function updatePlayerStats() {
   currentPlayer.gamesPlayed ++;
   if (wonGame === true) {
@@ -236,6 +260,8 @@ function clearRow() {
   playerStatsTable.textContent = '';
 }
 
+// sorts the players by their total points value
+// with a percent won value as a tiebreaker
 function sortPlayers(){
   parsedlclStrgObjArr.sort(function(a, b) {
     if (a.totalPoints === b.totalPoints) {
@@ -246,6 +272,7 @@ function sortPlayers(){
   });
 };
 
+// ranks the top 5 players after they've been sorted
 function setRank(){
   clearRow();
   var rank = 0;
@@ -259,6 +286,7 @@ function setRank(){
   }
 };
 
+// stores the array of player objects in local storage
 function storeLocal() {
   var playersJSON = JSON.stringify(parsedlclStrgObjArr);
   localStorage.setItem('players', playersJSON);
