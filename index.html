@@ -9,6 +9,9 @@
     <div id="title_image">
       <h1>HANGMAN</h1>
     </div>
+    <div id=message_top>
+      <h2 id="player_message" class="welcome_message"></h2>
+    </div>
     <main id="game_elements">
       <canvas id="stage" width="400" height="500"></canvas>
 
@@ -75,12 +78,14 @@
       </table>
     </div>
 
-    <form class="nav_button" method="link" action="about.html">
-      <input class="page_button" type="submit" value="CURIOUS ABOUT THE DEVELOPERS?">
-    </form>
-    <form class="nav_button" method="link" action="home.html">
-      <input class="page_button" type="submit" value="BACK TO HOME">
-    </form>
+    <div class="game_nav">
+      <form class="nav_button" method="link" action="about.html">
+        <input class="page_button" type="submit" value="CURIOUS ABOUT THE DEVELOPERS?">
+      </form>
+      <form class="nav_button" method="link" action="home.html">
+        <input class="page_button" type="submit" value="BACK TO HOME">
+      </form>
+    </div>
 
     <script type="text/javascript" src="app.js"></script>
   </body>
