@@ -55,7 +55,6 @@ function findCurrentPlayer() {
 function resetPreviousWords() {
   if (parsedPrevPlayerObj && currentPlayer.playerName !== parsedPrevPlayerObj.playerName) {
     currentPlayer.previousWords = [];
-    console.log('reset previous words ' + currentPlayer.previousWords);
   }
 };
 
@@ -119,21 +118,17 @@ function pickWord (wordArr) {
   var randomNumber = generateRandomNumber(wordArr);
   gameWord = wordArr[randomNumber];
   var currentWords = currentPlayer.previousWords;
-  console.log(currentWords);
   if (currentWords.length === 0) {
     currentWords.push(gameWord);
-    console.log('if');
   } else if (currentWords.length === easyWords.length){
     currentWords = [];
     currentWords.push(gameWord);
-    console.log('else if');
   } else {
     while (currentWords.indexOf(gameWord) !== -1) {
       randomNumber = generateRandomNumber(wordArr);
       gameWord = wordArr[randomNumber];
     }
     currentWords.push(gameWord);
-    console.log('else');
   }
   storeLocal();
   return gameWord;
@@ -269,7 +264,6 @@ function storeLocal() {
 
 function setPreviousPlayer() {
   parsedPrevPlayerObj = currentPlayer;
-  console.log('parsedPrevPlayerObj ' + parsedPrevPlayerObj);
   storePreviousPlayer();
 };
 
