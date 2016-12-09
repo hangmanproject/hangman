@@ -54,11 +54,21 @@ h1 {
   bottom: 360px;
 }
 
+
 #welcome_message {
   font-family: Aref ruqaa, serif;
   color: #8C1717;
   text-align: center;
   font-size: 14pt;
+}
+
+#player_message {
+  font-family: Aref ruqaa, serif;
+  color: #8C1717;
+  text-align: center;
+  font-size: 14pt;
+  position: relative;
+  bottom: 380px;
 }
 
 #button {
@@ -231,7 +241,7 @@ main h2 {
   position: relative;
   bottom: 350px;
   overflow: auto;
-  height: 820px;
+  height: 550px;
 /* overflow: auto and height: 820 currently keep the game_elements from becoming a scroll window*/
 }
 
@@ -281,11 +291,6 @@ canvas {
   background-color: rgba(255, 255, 255, .6);
 }
 
-/*#playing_buttons {
-  display: inline-block;
-  float: right;
-}*/
-
 .game_button {
   font-family: 'Raleway', sans-serif;
   font-size: 28pt;
@@ -294,7 +299,6 @@ canvas {
   width:  210px;
   height: 50px;
   padding: 0px;
-  /*background-color: rgba(255, 255, 255, .7);*/
   border-radius: 10px;
   text-align: center;
   /*float: left;*/
