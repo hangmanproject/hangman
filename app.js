@@ -4,7 +4,7 @@
 var playerAnswerArr = []; // blank spaces puzzle
 var incorrectGuesses = 0;
 var maxEasyGuesses = 7; // will correspond with number of easy difficulty body parts
-var easyWords = ['four', 'phone', 'mouse', 'bottle', 'notebook', 'canteen', 'sliver', 'shampoo', 'errand', 'beekeeper']; // subject to change
+var easyWords = ['four', 'phone', 'mouse', 'bottle', 'notebook', 'canteen', 'sliver', 'shampoo', 'errand', 'beekeeper', 'honey', 'pepper', 'casino', 'eucalyptus']; // subject to change
 //
 var gameWord; // word chosen from word array
 var remainingLetters; // remaining letters left to guess in the gameWord
@@ -19,18 +19,18 @@ var endMessage = document.getElementById('end_of_game_msg');
 //JSON VARIABLES
 var localStorageNameArr = localStorage.getItem('allPlayerNames');
 var localStorageObjArr  = localStorage.getItem('players');
-//var localPreviousPlayerObj = localStorage.getItem('previousPlayer');
+var localPreviousPlayerObj = localStorage.getItem('previousPlayer');
 var parsedLclStrgNameArr = JSON.parse(localStorageNameArr);   // get the name array from local storage and parse from JSON to js
 var parsedlclStrgObjArr  = JSON.parse(localStorageObjArr);   // get the player object array from local storage and parse from JSON to js
-//var parsedPrevPlayerObj = JSON.parse(localPreviousPlayerObj);
+var parsedPrevPlayerObj = JSON.parse(localPreviousPlayerObj);
 var currentPlayer = parsedlclStrgObjArr[0];
 
 retrieveLocal();
 findCurrentPlayer();
-//resetPreviousWords();
+resetPreviousWords();
 renderPlayerStatsRow(currentPlayer);
 runGame();
-
+writePlayerMessage();
 // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS //
 
 function retrieveLocal() {
@@ -38,9 +38,9 @@ function retrieveLocal() {
     parsedLclStrgNameArr = JSON.parse(localStorageNameArr);
     parsedlclStrgObjArr = JSON.parse(localStorageObjArr);
   }
-  // if (localPreviousPlayerObj) {
-  //   parsedPrevPlayerObj = JSON.parse(localPreviousPlayerObj);
-  // }
+  if (localPreviousPlayerObj) {
+    parsedPrevPlayerObj = JSON.parse(localPreviousPlayerObj);
+  }
 };
 
 function findCurrentPlayer() {
@@ -52,12 +52,18 @@ function findCurrentPlayer() {
   }
 };
 
-// function resetPreviousWords() {
-//   if (parsedPrevPlayerObj && currentPlayer.playerName !== parsedPrevPlayerObj.playerName) {
-//     currentPlayer.previousWords = [];
-//     console.log('reset previous words ' + currentPlayer.previousWords);
-//   }
-// };
+function resetPreviousWords() {
+  if (parsedPrevPlayerObj && currentPlayer.playerName !== parsedPrevPlayerObj.playerName) {
+    currentPlayer.previousWords = [];
+    console.log('reset previous words ' + currentPlayer.previousWords);
+  }
+};
+
+function writePlayerMessage() {
+  var playerMessage = document.getElementById('player_message');
+  playerMessage.textContent = (currentPlayer.playerName + ', the hangman\'s fate is in your hands.');
+  message_top.appendChild(playerMessage);
+};
 
 function renderPlayerStatsRow(currentPlayer) {
 
@@ -112,16 +118,23 @@ function runGame(){
 function pickWord (wordArr) {
   var randomNumber = generateRandomNumber(wordArr);
   gameWord = wordArr[randomNumber];
-  // var currentWords = currentPlayer.previousWords;
-  // if (currentWords === 0) {
-  //   currentWords.push(gameWord);
-  // } else {
-  //   while (gameWord.indexOf(currentWords) === -1) {
-  //     randomNumber = generateRandomNumber(wordArr);
-  //     gameWord = wordArr[randomNumber];
-  //   }
-  //   currentWords.push(gameWord);
-  // }
+  var currentWords = currentPlayer.previousWords;
+  console.log(currentWords);
+  if (currentWords.length === 0) {
+    currentWords.push(gameWord);
+    console.log('if');
+  } else if (currentWords.length === easyWords.length){
+    currentWords = [];
+    currentWords.push(gameWord);
+    console.log('else if');
+  } else {
+    while (currentWords.indexOf(gameWord) !== -1) {
+      randomNumber = generateRandomNumber(wordArr);
+      gameWord = wordArr[randomNumber];
+    }
+    currentWords.push(gameWord);
+    console.log('else');
+  }
   storeLocal();
   return gameWord;
 };
@@ -218,7 +231,7 @@ function updatePlayerStats() {
   setRank();
   renderPlayerStatsRow(currentPlayer);
   storeLocal();
-  //setPreviousPlayer();
+  setPreviousPlayer();
 };
 
 function clearRow() {
@@ -254,16 +267,16 @@ function storeLocal() {
   localStorage.setItem('players', playersJSON);
 };
 
-// function setPreviousPlayer() {
-//   parsedPrevPlayerObj = currentPlayer;
-//   console.log('parsedPrevPlayerObj ' + parsedPrevPlayerObj);
-//   storePreviousPlayer();
-// };
+function setPreviousPlayer() {
+  parsedPrevPlayerObj = currentPlayer;
+  console.log('parsedPrevPlayerObj ' + parsedPrevPlayerObj);
+  storePreviousPlayer();
+};
 
-// function storePreviousPlayer() {
-//   var previousPlayerJSON = JSON.stringify(parsedPrevPlayerObj);
-//   localStorage.setItem('previousPlayer', previousPlayerJSON);
-// };
+function storePreviousPlayer() {
+  var previousPlayerJSON = JSON.stringify(parsedPrevPlayerObj);
+  localStorage.setItem('previousPlayer', previousPlayerJSON);
+};
 
 // handles the event when 'play again' button is clicked
 function handlePlayAgain(event) {
