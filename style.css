@@ -54,11 +54,21 @@ h1 {
   bottom: 360px;
 }
 
+
 #welcome_message {
   font-family: Aref ruqaa, serif;
   color: #8C1717;
   text-align: center;
   font-size: 14pt;
+}
+
+#player_message {
+  font-family: Aref ruqaa, serif;
+  color: #8C1717;
+  text-align: center;
+  font-size: 14pt;
+  position: relative;
+  bottom: 380px;
 }
 
 #button {
@@ -131,7 +141,7 @@ h1 {
   margin: 0px auto 0 auto;
   padding: 10px 80px 60px 80px;
   position: relative;
-  bottom: 900px;
+  bottom: 600px;
 }
 
 table {
@@ -235,7 +245,7 @@ main h2 {
   position: relative;
   bottom: 350px;
   overflow: auto;
-  height: 820px;
+  height: 550px;
 /* overflow: auto and height: 820 currently keep the game_elements from becoming a scroll window*/
 }
 
