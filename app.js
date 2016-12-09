@@ -1,7 +1,5 @@
 'use strict';
 
-//HANGMAN DRAWING UP ABOVE
-
 // Global variables
 var playerAnswerArr = []; // blank spaces puzzle
 var incorrectGuesses = 0;
@@ -280,6 +278,12 @@ function handlePlayAgain(event) {
 var canvas = document.getElementById('stage'),
   ctx = canvas.getContext('2d');
 
+// ctx.strokeStyle = 'black';
+// drawLine(ctx, [30,185], [30,10]);
+// ctx.lineTo(150,10);
+// ctx.stroke();
+
+//HANGMAN DRAWING DOWN BELOW:
 function drawLine(ctx , from, to) {
   ctx.beginPath();
   ctx.moveTo(from[0], from[1]);
@@ -287,53 +291,46 @@ function drawLine(ctx , from, to) {
   ctx.stroke();
 }
 
-canvas.width = canvas.width; //resetting the canvas everytime
-ctx.lineWidth = 10; //setting the basic styles
-ctx.strokeStyle = 'black'; //setting the basic styles
-ctx.fillStyle = 'black'; //setting the basic styles
-drawLine(ctx, [20,190], [180,190]); //draws the ground
-// ctx.strokeStyle = 'black';
-// drawLine(ctx, [30,185], [30,10]);
-// ctx.lineTo(150,10);
-// ctx.stroke();
-
 function drawCanvas() {
-  canvas.width = canvas.width; //resetting the canvas everytime
+  //canvas.width = canvas.width; //resetting the canvas everytime
   ctx.lineWidth = 10; //setting the basic styles
   ctx.strokeStyle = 'black'; //setting the basic styles
   ctx.fillStyle = 'black'; //setting the basic styles
-  drawLine(ctx, [20,190], [180,190]); //draws the ground
+  if (incorrectGuesses >= 1) {
+    ctx.strokeStyle = 'black';
+    drawLine(ctx, [30,285], [270,285]); //draws the ground
+  }
   if (incorrectGuesses >= 1) { //creates the upright gallows:
     ctx.strokeStyle = 'black';
-    drawLine(ctx, [30,185], [30,10]);
+    drawLine(ctx, [45,277.5], [45,15]);
   }
   if (incorrectGuesses >= 1) { //creates the arm gallows:
-    ctx.lineTo(150,10);
+    ctx.lineTo(225,15);
     ctx.stroke();
   }
   if (incorrectGuesses >= 2) { //creates the noose:
     ctx.strokeStyle = 'black';
     ctx.lineWidth = 3;
-    drawLine(ctx, [145,15], [145,30]);
+    drawLine(ctx, [217.5,22.5], [217.5,45]);
 
     ctx.beginPath(); //creates the head:
-    ctx.moveTo(160, 45);
-    ctx.arc(145, 45, 15, 0, (Math.PI / 180) * 360);
+    ctx.moveTo(240, 67.5);
+    ctx.arc(217.5, 67.5, 22.5, 0, (Math.PI / 180) * 360);
     ctx.stroke();
   }
   if (incorrectGuesses >= 3) { //creates the body:
-    drawLine(ctx, [145,60], [145,130]);
+    drawLine(ctx, [217.5,90], [217.5,195]);
   }
   if (incorrectGuesses >= 4) { //creates the left arm:
-    drawLine(ctx, [145,80], [110,90]);
+    drawLine(ctx, [217.5,120], [165,135]);
   }
   if (incorrectGuesses >= 5) { //creates the right arm:
-    drawLine(ctx, [145,80], [180,90]);
+    drawLine(ctx, [217.5,120], [270,135]);
   }
   if (incorrectGuesses >= 6) { //creates the left leg:
-    drawLine(ctx, [145,130], [130,170]);
+    drawLine(ctx, [217.5,195], [195,255]);
   }
   if (incorrectGuesses >= 7) { //creates the right leg and ends game
-    drawLine(ctx, [145,130], [160,170]);
+    drawLine(ctx, [217.5,195], [240,255]);
   }
 }
