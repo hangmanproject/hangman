@@ -7,6 +7,7 @@ var maxEasyGuesses = 7; // will correspond with number of easy difficulty body p
 var easyWords = ['four', 'phone', 'mouse', 'bottle', 'notebook',
   'canteen', 'sliver', 'shampoo', 'errand', 'beekeeper',
   'honey', 'pepper', 'casino', 'eucalyptus']; // subject to change
+
 var gameWord; // word chosen from word array
 var remainingLetters; // remaining letters left to guess in the gameWord
 var wonGame = false; // used in checkForWin/Loss and updatePlayerStats
@@ -25,6 +26,8 @@ var parsedLclStrgNameArr = JSON.parse(localStorageNameArr);   // get the name ar
 var parsedlclStrgObjArr  = JSON.parse(localStorageObjArr);   // get the player object array from local storage and parse from JSON to js
 var parsedPrevPlayerObj = JSON.parse(localPreviousPlayerObj);
 var currentPlayer = parsedlclStrgObjArr[0];
+var canvas = document.getElementById('stage'), //these are global variables, please do not move them.
+  ctx = canvas.getContext('2d'); //these are global variables, please do not move them.
 
 // EXECUTE // EXECUTE // EXECUTE // EXECUTE // EXECUTE // EXECUTE // EXECUTE // EXECUTE // EXECUTE
 retrieveLocal();
@@ -33,7 +36,7 @@ resetPreviousWords();
 renderPlayerStatsRow(currentPlayer);
 writePlayerMessage();
 runGame();
-
+writePlayerMessage();
 // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS // FUNCTIONS //
 // retrieve JSON player information from local storage and prepare it for js usage
 function retrieveLocal() {
@@ -61,6 +64,12 @@ function resetPreviousWords() {
   if (parsedPrevPlayerObj && currentPlayer.playerName !== parsedPrevPlayerObj.playerName) {
     currentPlayer.previousWords = [];
   }
+};
+
+function writePlayerMessage() {
+  var playerMessage = document.getElementById('player_message');
+  playerMessage.textContent = (currentPlayer.playerName + ', the hangman\'s fate is in your hands.');
+  message_top.appendChild(playerMessage);
 };
 
 // acknowledge player on the game page above the game elements
@@ -303,13 +312,12 @@ function handlePlayAgain(event) {
 }
 
 //HANGMAN DRAWING DOWN BELOW:
-var canvas = document.getElementById('stage'),
-  ctx = canvas.getContext('2d');
 
-// ctx.strokeStyle = 'black';
-// drawLine(ctx, [30,185], [30,10]);
-// ctx.lineTo(150,10);
-// ctx.stroke();
+
+ctx.strokeStyle = 'black';
+drawLine(ctx, [30,185], [30,10]);
+ctx.lineTo(150,10);
+ctx.stroke();
 
 //HANGMAN DRAWING DOWN BELOW:
 function drawLine(ctx , from, to) {
