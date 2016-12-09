@@ -313,10 +313,9 @@ function handlePlayAgain(event) {
 
 //HANGMAN DRAWING DOWN BELOW:
 
-
+ctx.lineWidth = 10;
 ctx.strokeStyle = 'black';
-drawLine(ctx, [30,185], [30,10]);
-ctx.lineTo(150,10);
+drawLine(ctx, [30,285], [270,285]);
 ctx.stroke();
 
 //HANGMAN DRAWING DOWN BELOW:

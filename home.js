@@ -113,6 +113,9 @@ function renderTable(){
     rank = rank + 1;
     players[i].ranking = rank;
     renderTopPlayerRow(players[i]);
+    if (players[i].ranking > 5) {
+      players[i].ranking = 'Not Ranked';
+    }
   }
 };
 
