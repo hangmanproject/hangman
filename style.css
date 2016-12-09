@@ -265,7 +265,7 @@ main h2 {
   position: relative;
   bottom: 350px;
   overflow: auto;
-  height: 550px;
+  height: 500px;
 /* overflow: auto and height: 820 currently keep the game_elements from becoming a scroll window*/
 }
 
@@ -304,7 +304,7 @@ canvas {
 
 #end_of_game_msg {
   font-family: 'Raleway', sans-serif;
-  font-size: 36pt;
+  font-size: 30pt;
   letter-spacing: 0.05em;
   text-align: center;
   text-shadow: -3px 3px 0px #D9D9D9;
@@ -314,7 +314,7 @@ canvas {
   right: 0px;
   top: 290px;
   border-radius: 10px;
-  background-color: rgba(255, 255, 255, .6);
+  background-color: rgba(255, 255, 255, .9);
 }
 
 .game_button {
