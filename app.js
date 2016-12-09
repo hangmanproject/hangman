@@ -24,6 +24,8 @@ var parsedLclStrgNameArr = JSON.parse(localStorageNameArr);   // get the name ar
 var parsedlclStrgObjArr  = JSON.parse(localStorageObjArr);   // get the player object array from local storage and parse from JSON to js
 var parsedPrevPlayerObj = JSON.parse(localPreviousPlayerObj);
 var currentPlayer = parsedlclStrgObjArr[0];
+var canvas = document.getElementById('stage'), //these are global variables, please do not move them.
+  ctx = canvas.getContext('2d'); //these are global variables, please do not move them.
 
 retrieveLocal();
 findCurrentPlayer();
@@ -282,13 +284,12 @@ function handlePlayAgain(event) {
 }
 
 //HANGMAN DRAWING DOWN BELOW:
-var canvas = document.getElementById('stage'),
-  ctx = canvas.getContext('2d');
 
-// ctx.strokeStyle = 'black';
-// drawLine(ctx, [30,185], [30,10]);
-// ctx.lineTo(150,10);
-// ctx.stroke();
+
+ctx.strokeStyle = 'black';
+drawLine(ctx, [30,185], [30,10]);
+ctx.lineTo(150,10);
+ctx.stroke();
 
 //HANGMAN DRAWING DOWN BELOW:
 function drawLine(ctx , from, to) {
