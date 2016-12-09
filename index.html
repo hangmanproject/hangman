@@ -2,65 +2,28 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Hangman Game</title>
+    <title>Hangman Home</title>
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
     <div id="title_image">
       <h1>HANGMAN</h1>
     </div>
-    <div id=message_top>
-      <h2 id="player_message" class="welcome_message"></h2>
-    </div>
-    <main id="game_elements">
-      <canvas id="stage" width="400" height="500"></canvas>
-
-      <div id="display_player_array"></div>
-      <div id="display_guesses_remaining"></div>
-
-      <div id="letter_buttons">
-        <button type="button" class="letter_button" name="a" value="a">a</button>
-        <button type="button" class="letter_button" name="b" value="b">b</button>
-        <button type="button" class="letter_button" name="c" value="c">c</button>
-        <button type="button" class="letter_button" name="d" value="d">d</button>
-        <button type="button" class="letter_button" name="e" value="e">e</button>
-        <button type="button" class="letter_button" name="f" value="f">f</button>
-        <button type="button" class="letter_button" name="g" value="g">g</button>
-        <button type="button" class="letter_button" name="h" value="h">h</button>
-        <button type="button" class="letter_button" name="i" value="i">i</button>
-        <button type="button" class="letter_button" name="j" value="j">j</button>
-        <button type="button" class="letter_button" name="k" value="k">k</button>
-        <button type="button" class="letter_button" name="l" value="l">l</button>
-        <button type="button" class="letter_button" name="m" value="m">m</button>
-        <button type="button" class="letter_button" name="n" value="n">n</button>
-        <button type="button" class="letter_button" name="o" value="o">o</button>
-        <button type="button" class="letter_button" name="p" value="p">p</button>
-        <button type="button" class="letter_button" name="q" value="q">q</button>
-        <button type="button" class="letter_button" name="r" value="r">r</button>
-        <button type="button" class="letter_button" name="s" value="s">s</button>
-        <button type="button" class="letter_button" name="t" value="t">t</button>
-        <button type="button" class="letter_button" name="u" value="u">u</button>
-        <button type="button" class="letter_button" name="v" value="v">v</button>
-        <button type="button" class="letter_button" name="w" value="w">w</button>
-        <button type="button" class="letter_button" name="x" value="x">x</button>
-        <button type="button" class="letter_button" name="y" value="y">y</button>
-        <button type="button" class="letter_button" name="z" value="z">z</button>
-      </div>
-      <div id="end_of_game_msg"></div>
-      <button id="play_again_btn" class="game_button" type="button" name="play_again">play again</button>
-      <div id="instruction_wrapper">
-        <button class="game_button hover" type="button" name="instructions">how to play</button>
-        <p class="instruction_text">
-          Click the letter buttons to try and guess the word. If you complete
-          the word before you run out of guesses you win! Continue playing
-          to improve your personal stats and overall ranking!
+    <div id="player_input">
+      <form name="player_form" id="form">
+        <p>Player Name:
+          <input type="text" name="player_name">
+          <input id="submit" type="submit" value="Submit">
         </p>
-      </div>​
-    </main>
-
-    <div id="players_stats_table">
-      <h3 class="table_title">PLAYER STATS:</h3>
-      <table id="player_stats">
+      </form>
+      <h2 id="welcome_message" class="welcome_message"></h2>
+    </div>
+    <form id="button" method="link" action="game.html">
+      <input id="game_button" type="submit" value="PLAY">
+    </form>
+    <div id="top_players_table">
+      <h3 class="table_title">TOP PLAYERS:</h3>
+      <table id="top_players">
         <thead>
           <tr>
             <th>Player Ranking:</th>
@@ -71,20 +34,13 @@
             <th>Total Points:</th>
           </tr>
         </thead>
-        <tbody id="stats_table_body">
+        <tbody id="table_body">
         </tbody>
       </table>
     </div>
-
-    <div class="game_nav">
-      <form class="nav_button" method="link" action="about.html">
-        <input class="page_button" type="submit" value="CURIOUS ABOUT THE DEVELOPERS?">
-      </form>
-      <form class="nav_button" method="link" action="home.html">
-        <input class="page_button" type="submit" value="BACK TO HOME">
-      </form>
-    </div>
-
-    <script type="text/javascript" src="app.js"></script>
+    <form class="nav_button" method="link" action="about.html">
+      <input class="page_button" type="submit" value="CURIOUS ABOUT THE DEVELOPERS?">
+    </form>
+    <script type="text/javascript" src="home.js"></script>
   </body>
 </html>
