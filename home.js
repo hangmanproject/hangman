@@ -14,15 +14,14 @@ function PlayerInfo(name) {
   this.percentDisplay = 0;
   this.totalPoints = 0;
   this.ranking = 0;
+  this.previousWords = [];
 };
 
 retrieveLocal();
 sortPlayers();
 renderTable();
 
-
 var playerForm = document.getElementById('form');
-
 playerForm.addEventListener('submit', handleSubmit);
 
 function handleSubmit(event){
@@ -154,7 +153,6 @@ function clearTable(){
 };
 
 var gameForm = document.getElementById('button');
-
 gameForm.addEventListener('submit', handleGameSubmit);
 
 function handleGameSubmit(event){
