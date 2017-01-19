@@ -91,6 +91,13 @@ function renderPlayerStatsRow(currentPlayer) {
   var totalPointsPlayer = document.createElement('td');
 
   playerTableRow.appendChild(rankingPlayer);
+  //even though these are property names you could still loop through them
+  //with a for loop. Something like:
+  //for (var key in currentPlayer) {
+  //td = document.createElement('td')
+  //td.textContent = currentPlayer[key]
+  //
+  //}
 
   playerNamePlayer.textContent = currentPlayer.playerName;
   playerTableRow.appendChild(playerNamePlayer);
@@ -156,6 +163,8 @@ function generateRandomNumber(arr) {
 
 // initiate the playerAnswerArr to '_' characters, the length of the gameWord
 function generatePlayerAnswerArray (gameWord) {
+  //careful using push here. If you don't reset the array you could keep tacking
+  //things on. Defensively you could reset it here (playerAnswerArr = [])
   for (var i = 0; i < gameWord.length; i++) {
     playerAnswerArr.push('_');
   };
@@ -177,6 +186,8 @@ function handleClick(event) {
   event.preventDefault(); // prevent page refresh
 
   // determine if the event.target.value is in the gameWord array
+  //includes! nice.  Includes returns a boolean. So comparing it to true is
+  //the same as just calling it.
   if (gameWord.includes(event.target.value) === true) {
     // loop through the gameWord to match target value (letter) with any same letter in the gameword
     for (var i = 0; i < gameWord.length; i++) {
@@ -192,6 +203,7 @@ function handleClick(event) {
         checkForWin();
       }
     }
+    //since there are only two cases this could just be an else
   } else if (gameWord.includes(event.target.value) === false) {
     // if user selects a invalid letter, nothing changes in the playerAnswerArr
     displayPlayerArray(playerAnswerArr);
@@ -282,6 +294,7 @@ function setRank(){
   }
   for (var i = 0; i < playersLength; i++) {
     rank = rank + 1;
+    //you could also just use i here
     parsedlclStrgObjArr[i].ranking = rank;
   }
 };
@@ -305,6 +318,7 @@ function storePreviousPlayer() {
 // handles the event when 'play again' button is clicked
 function handlePlayAgain(event) {
   // reloads the page and starts it at the top
+  //neat!
   window.location.reload();
   window.onbeforeunload = function () {
     window.scrollTo(0, 0);
